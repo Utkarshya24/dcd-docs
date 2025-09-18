@@ -1,0 +1,89 @@
+---
+title: Service Management
+description: Manage your services in dcdeploy by starting, stopping, restarting, or deleting them. This guide covers the full lifecycle of service management for maintenance, cost optimization, and operational control.
+---
+
+## When to Manage Services
+
+- **Maintenance** – Temporarily stop, restart, or delete services for updates or troubleshooting.  
+- **Cost Optimization** – Stop or delete unused services to save resources.  
+- **Testing & Configuration Changes** – Restart services to apply configuration changes without redeploying.  
+- **Emergency Actions** – Stop or delete services immediately to prevent errors or security issues.  
+
+---
+
+## Start, Stop & Restart Services
+
+### How It Works
+
+1. **Stop Service**  
+   - Stops all running containers.  
+   - Preserves configuration for later restart.  
+   - No traffic is routed to the service while stopped.  
+
+2. **Start Service**  
+   - Starts containers using the last deployed image and configuration.  
+   - Runs health checks before routing traffic.  
+
+3. **Restart Service**  
+   - Stops the service and immediately starts it again.  
+   - Useful for refreshing containers without a full rebuild.  
+
+### Dashboard Steps
+
+1. Open the **dcdeploy dashboard**.  
+2. Navigate to your service.  
+3. Use the buttons:  
+   - **Stop Service** to halt containers.  
+   - **Start Service** to bring it online.  
+   - **Restart Service** to refresh containers.  
+4. Monitor logs and health checks in real-time.  
+
+### CLI Commands
+
+```bash
+# Stop a service
+dcd stop <service-name>
+
+# Start a service
+dcd start <service-name>
+
+# Restart a service
+dcd restart <service-name>
+``` 
+
+### Comparison Table 
+| Action  | What Happens                               | Use Case                         |
+| ------- | ------------------------------------------ | -------------------------------- |
+| Start   | Starts containers from last deployed image | Bring service online             |
+| Stop    | Stops all containers, no traffic routed    | Maintenance, save resources      |
+| Restart | Stops and starts containers immediately    | Refresh service without redeploy |
+
+### Delete Service
+#### How It Works
+- Permanently removes the selected service from the environment.
+- Deletes all containers, associated resources, configuration, deployment history, and logs.
+- Action is irreversible, so ensure the service is no longer needed.
+
+#### Dashboard Steps
+- Open the dcdeploy dashboard.
+- Navigate to the Environment tab.
+- Go to the Deploy section.
+- Select the service you want to delete.
+- Click Mark as Delete.
+- Click Continue to confirm.
+- Click Deploy to finalize deletion.
+- The service will be permanently removed.
+
+### Best Practices
+
+- Always double-check the service before stopping or deleting.
+- Backup important data before deletion.
+- Use staging environments for testing service management actions.
+- Combine restart with zero-downtime deployment to minimize user impact.
+- Automate start/stop actions during off-peak hours via scripts or CI/CD pipelines.
+
+## Learn more
+- [DCDeploy YAML](./dcdeploy-yml)  
+- [Environment Variables](./environment-variables)  
+- [Workload Types](./workload-types) 

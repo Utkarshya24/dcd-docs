@@ -1,0 +1,70 @@
+---
+title: Audit Logs & Activity
+description: Track all actions across your dcdeploy organization with detailed audit logs and activity history.
+---
+
+dcdeploy provides **audit logs** to help you monitor, trace, and secure activity across your organization.  
+Every significant action — from deployments to user management — is recorded with timestamps, user details, and context.
+
+---
+
+## Overview
+
+- **Who did what, when, and where** – every action is traceable.  
+- Logs include **user identity, action type, resource affected, and timestamp**.  
+- Useful for **security investigations, compliance, and debugging issues**.  
+
+---
+
+## What Gets Logged?
+
+| Category             | Example Actions |
+|----------------------|-----------------|
+| **Deployments**      | Service deployed, redeployed, rebuilt |
+| **Scaling**          | Manual or autoscale events triggered |
+| **Configuration**    | Changes in `dcdeploy.yml`, env vars, or domains |
+| **Access Control**   | User invited, role updated, or removed |
+| **Billing & Plans**  | Plan upgraded/downgraded, payment attempts |
+| **Networking**       | Domain changes, TCP proxy setup, SSL updates |
+
+---
+
+## Viewing Audit Logs
+
+### 🔹 Dashboard
+1. Navigate to **Organization → Audit Logs**.  
+2. Filter logs by:
+   - User  
+   - Service  
+   - Action type  
+   - Date range  
+3. Export logs in **CSV or JSON** for compliance reporting.  
+
+### 🔹 CLI
+```bash
+dcd audit-logs --org my-org --limit 20
+```
+Example output:
+
+```yaml
+[2025-09-15 10:05:21] User: admin@org.com | Action: Service Deployed | Service: my-app
+[2025-09-15 10:15:32] User: dev@org.com   | Action: Env Var Updated  | Service: api-service
+```
+### Use Cases
+- Security – Detect unauthorized or suspicious activity.
+- Compliance – Maintain audit trails for SOC2, GDPR, HIPAA, etc.
+- Debugging – Trace who triggered a failed deployment or config change.
+- Collaboration – See recent activity by team members.
+
+### Retention Policy
+- Logs are stored for 90 days by default.
+- Enterprise plans allow custom retention (up to 1 year).
+- Export regularly if you need longer history.
+
+### Best Practices
+- Assign proper roles & permissions to limit risky actions.
+- Regularly review audit logs for anomalies.
+- Enable alerts (via email or Discord integration) for critical events:
+  - Service deletions
+  - Billing changes
+  - User role escalations

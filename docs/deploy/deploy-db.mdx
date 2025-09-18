@@ -1,0 +1,40 @@
+---
+title: 'Deploy a Database'
+description: 'Provision and deploy a managed database in your DCDeploy environment.'
+---
+
+<Steps>
+  <Step title="Navigate to Deploy tab">
+    Go to the **Deploy** tab of the environment in your DCDeploy dashboard.  
+    Here you can deploy both services and databases.  
+    <img height="200" src="images/deploy.png" />
+  </Step>
+
+  <Step title="Add a new database">
+    Click on **Add Database**. A new form will appear where you can configure your database.
+  </Step>
+
+  <Step title="Fill in the details">
+    Provide the following details:  
+
+    - **Database Name**: Enter a unique name for your database instance.  
+    - **Engine**: Select the database engine and version. Supported engines:  
+      - MongoDB (v4, v5, v6, v7)  
+      - MariaDB  
+      - PostgreSQL  
+      - MySQL  
+    - **Region**: Choose the DCDeploy region where your database should be deployed.  
+    - **Machine Type**: Select a machine type that fits your resource needs (CPU, RAM, Disk).  
+
+    <img height="200" src="images/db-form.png" />
+  </Step>
+
+  <Step title="Deploy">
+    Click **Deploy** to start provisioning your database.  
+    <img height="200" src="images/summary.png" />
+    - Deployment may take a few minutes depending on the engine and machine type selected.  
+    - Once deployed, connection details (hostname, port, username, password) will be available in the dashboard.  
+
+   <img height="200" src="images/confirm.png" />
+  </Step>
+</Steps>

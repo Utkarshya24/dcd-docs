@@ -1,0 +1,70 @@
+---
+title: Persistent Volumes
+description: Use persistent volumes in dcdeploy to store data that survives container restarts, deployments, and scaling operations.
+---
+
+
+## Overview
+By default, workloads in dcdeploy use **ephemeral storage** — data is lost when the container restarts, redeploys, or scales.  
+To store data reliably across restarts and deployments, dcdeploy provides **Persistent Volumes**.
+
+Persistent volumes are ideal for databases, file storage, or any workload that needs durable storage.
+
+---
+
+## Use Cases
+- Running databases like **Postgres, MySQL, MongoDB**.  
+- Storing **uploaded files** (images, PDFs, media).  
+- Maintaining **caches, logs, or stateful services** that must survive restarts.  
+
+---
+
+## Prerequisites
+- An active **environment** in dcdeploy.  
+- A workload with volume support enabled.  
+- Sufficient quota for storage (allocated at org level).  
+
+---
+
+## Step-by-Step Guide
+
+### 1. Create a Service with Volume
+In the **dcdeploy dashboard**:
+1. Go to **Deploy → Add Service**.  
+2. Under **Workload Settings**, choose **Persistent Volume**.  
+3. Set the **volume size** (e.g., 10GB).  
+4. Mount it at a path inside the container (e.g., `/data`).  
+
+Example YAML (`dcdeploy.yml`):
+
+```yaml
+services:
+  my-db:
+    image: postgres:15
+    volumes:
+      - mountPath: /var/lib/postgresql/data
+        size: 20GB
+```        
+### 2. Access the Volume
+Inside your container, the mounted path behaves like a local folder.
+Example (Postgres):
+
+```bash
+psql -h localhost -U user -d mydb
+# Data will persist in /var/lib/postgresql/data across restarts
+```
+### 3. Scaling Behavior
+- Vertical scaling (CPU/RAM changes): volume is preserved.
+- Horizontal scaling (multiple instances): each instance gets its own volume (data is not automatically shared).
+- For shared storage, use an external database or object storage.
+
+## Best Practices
+- Always mount databases to a persistent volume.
+- Avoid storing large assets directly in volumes; use object storage (S3, GCS) instead.
+- Use backup tools to periodically snapshot data.
+- Keep volumes lightweight for faster redeploys.
+
+## Troubleshooting
+- Data loss after redeploy: Ensure you’re using a persistent volume, not ephemeral storage.
+- Multiple replicas with inconsistent data: Volumes are not shared — use an external DB if consistency is required.
+- Storage full errors: Increase the volume size via dashboard or update your dcdeploy.yml.

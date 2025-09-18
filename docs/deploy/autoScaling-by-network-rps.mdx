@@ -1,0 +1,90 @@
+---
+title: Autoscaling by Network RPS
+description: DCDeploy supports autoscaling applications based on **Requests Per Second (RPS)**. Unlike CPU or memory-based scaling, RPS-based scaling directly responds to real incoming traffic, ensuring applications scale in proportion to client demand.
+---
+
+## How it works
+
+1. **Traffic measurement**: DCDeploy measures incoming RPS at the edge (load balancer / HTTP proxy).
+2. **Target RPS per instance**: You define how many requests a single instance should handle while maintaining acceptable latency.
+3. **Scaling decision**: The autoscaler computes the desired replica count:
+
+   ```
+   desiredReplicas = ceil(totalRps / targetRpsPerInstance)
+   ```
+
+4. **Stabilization & cooldown**: Scale-up reacts quickly to spikes, while scale-down waits longer to avoid flapping.
+5. **Safe padding**: Optional buffer capacity ensures smooth handling of microbursts.
+
+---
+
+## Configuration
+
+In your service manifest (`service.dcdeploy.yaml`):
+
+```yaml
+service:
+  name: webapp
+  image: ghcr.io/example/webapp:1.2.0
+  port: 8080
+
+autoscaling:
+  type: rps
+  minReplicas: 2
+  maxReplicas: 20
+  targetRpsPerInstance: 150
+  scaleUp:
+    stabilizationWindowSeconds: 30
+    cooldownSeconds: 60
+  scaleDown:
+    stabilizationWindowSeconds: 120
+    cooldownSeconds: 300
+    safePaddingPercent: 10
+```
+
+**Key fields:**
+- `targetRpsPerInstance`: most important tuning knob.
+- `minReplicas` / `maxReplicas`: bounds for safety.
+- `scaleUp` / `scaleDown`: define responsiveness.
+
+---
+
+## Best practices
+
+- **Benchmark your app**: load test to find safe RPS per instance.
+- **Prefer longer scale-down windows**: avoid oscillations.
+- **Reserve headroom**: 5–15% `safePaddingPercent` handles sudden bursts.
+- **Combine with rate limiting**: autoscaling adds capacity but should not replace API quotas or DDoS protection.
+
+---
+
+## Example scenario
+
+If total RPS = **2000** and `targetRpsPerInstance = 150`:
+
+```
+baseReplicas = ceil(2000 / 150) = 14
+```
+
+If you currently run 5 replicas with `maxScaleFactor = 3`, the autoscaler can increase up to 15 replicas in one step → scales to 14.
+
+---
+
+## Observability
+
+Metrics exposed:
+- `dcdeploy_edge_requests_total{service="<name>"}` — total requests
+- `dcdeploy_autoscaler_decisions{service="<name>"}` — scaling events
+
+Recommended dashboards:
+- RPS (1m/5m/15m)
+- Per-instance RPS
+- Latency (p95/p99)
+- Replica count timeline
+
+---
+
+## Learn more
+
+- [Deploy Docker Image](./deploy/deploy-docker-image)
+- [Introduction](./introduction)

@@ -1,0 +1,65 @@
+---
+title: Redeploy
+description: The **Redeploy** feature in dcdeploy allows you to quickly apply changes to an existing service without creating a new one. This is useful when you’ve updated your code, modified environment variables, or adjusted configuration and want to roll out the changes seamlessly.
+
+---
+
+## When to use Redeploy
+
+- **Code Updates** – Push new commits to your repo and redeploy to reflect changes.  
+- **Environment Variables** – Apply updated secrets or configuration.  
+- **Scaling or Workload Types** – Redeploy after adjusting machine type, scaling rules, or workloads.  
+- **Hotfixes** – Quickly fix production issues by redeploying a stable build.  
+
+
+## How Redeploy Works
+
+1. **Detect changes**  
+   - dcdeploy checks for updates in your **Git repository** or **container image**.  
+   - You can also trigger redeploy manually from the dashboard or CLI.  
+
+2. **Build & Deploy**  
+   - A new image is built (if build settings are configured).  
+   - The updated version is rolled out to your service.  
+
+3. **Zero Downtime** (if enabled)  
+   - dcdeploy performs a rolling update.  
+   - Old containers are stopped only after new containers are healthy.  
+
+## Redeploy via Dashboard
+
+1. Navigate to your service in the **environment dashboard**.  
+2. Click **Redeploy**.  
+3. Select the redeploy source:
+   - Latest Git commit  
+   - Latest Docker image  
+   - Manual trigger  
+4. Monitor logs in real-time as the service updates.  
+
+
+## Redeploy via CLI
+
+```bash
+dcd redeploy <service-name>
+```
+Example:
+
+```bash
+dcd redeploy my-app
+```
+This command redeploys the latest version of my-app.
+
+### Best Practices
+- Commit and push changes to your repo before redeploying.
+- Use redeploy for small-to-medium updates. For major changes, consider creating a new service.
+- Test redeployments in staging before applying to production.
+- Use health checks to ensure only healthy containers serve traffic during redeploy.
+
+By using Redeploy, you can roll out changes faster, keep services up-to-date, and ensure minimal downtime for your workloads.
+
+--- 
+
+## Learn more
+- [DCDeploy YAML](./dcdeploy-yml)  
+- [Environment Variables](./environment-variables)  
+- [Workload Types](./workload-types) 

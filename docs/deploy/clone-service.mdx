@@ -1,0 +1,90 @@
+---
+title: Clone Service
+description: DCDeploy allows you to **clone an existing service** with a single click. This is useful when you want to create a new workload with the **same configuration** (build settings, ports, scaling rules, environment variables) as an existing one.
+---
+
+---
+
+## When to use Clone
+- **Staging and Production** → Duplicate your service and point it to a different branch or database.
+- **A/B Testing** → Run two versions of the same service with small differences.
+- **Quick Setup** → Save time instead of re-entering build and scaling options manually.
+
+---
+
+## How to clone a service
+
+1. Go to your **Environment Dashboard** → **Deploy tab**.  
+2. Select the service you want to clone (e.g., `bunny`).  
+3. At the bottom of the service card, click **Clone**.  
+4. A new service (`bunny-clone`) will be created with identical configuration.  
+5. Update the cloned service:
+   - Change **name** to avoid conflicts.  
+   - Adjust **repository ref / branch / commit** if needed.  
+   - Modify **ports** if both services must run simultaneously.  
+   - Update **environment variables** (e.g., different API keys).  
+
+---
+
+## Example: Cloning `bunny`
+
+Original service:
+
+```yaml
+bunny:
+  type: service
+  machineType: DCD-1
+  regions: India
+  build:
+    context: ./server1
+    dockerfilePath: ./server1/Dockerfile
+    repo: Utkarshya24/file-upload-backend
+    ref: main
+    refType: branch
+    commitHash: bb4c2ba325d35e7860f45bf09d9ad61ca04ba3ce
+    autoBuild: true
+    private: true
+  ports:
+    - 3001
+  minScale: 1
+  maxScale: 2
+  protocol: https
+```
+
+Cloned service:
+
+```yaml
+bunny-clone:
+  type: service
+  machineType: DCD-1
+  regions: India
+  build:
+    context: ./server2
+    dockerfilePath: ./server2/Dockerfile
+    repo: Utkarshya24/file-upload-backend
+    ref: main
+    refType: branch
+    commitHash: bb4c2ba325d35e7860f45bf09d9ad61ca04ba3ce
+    autoBuild: true
+    private: true
+  ports:
+    - 3002
+  minScale: 1
+  maxScale: 1
+  protocol: https
+```
+
+---
+
+## Best practices
+- **Rename immediately** to avoid name conflicts.  
+- **Use different ports** if both services run in the same environment.  
+- **Keep configs in sync** with environment variables or secrets manager.  
+- **Use cloning for speed**, but review each setting before deployment.  
+
+---
+
+## Learn more
+- [DCDeploy YAML](./dcdeploy-yml)  
+- [Environment Variables](./environment-variables)  
+- [Workload Types](./workload-types)  

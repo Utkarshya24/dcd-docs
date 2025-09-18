@@ -1,0 +1,58 @@
+---
+title: Private Network
+description: Understand how dcdeploy provides private networking across environments and namespaces for secure service-to-service communication.
+---
+
+dcdeploy provides a **built-in private network** for all workloads.  
+This allows services to securely communicate with each other **inside the same namespace or environment** without exposing them to the public internet.
+
+---
+
+## Overview
+
+- Every **environment (env)** in dcdeploy has its own **isolated private network**.  
+- Services inside the same environment can reach each other using **internal DNS names**.  
+- Traffic inside the private network:
+  - Never leaves dcdeploy’s infrastructure.  
+  - Is protected with **encryption-in-transit**.  
+  - Avoids public exposure unless explicitly configured.  
+
+---
+
+## Namespaces & Isolation
+
+- Each **namespace (per environment)** acts as a separate private network.  
+- Services in different namespaces cannot talk to each other unless connected via a **private link**.  
+- Example:
+  - `service-a` in `staging` cannot reach `service-b` in `production` unless explicitly linked.  
+
+---
+
+## Example: Internal Communication
+
+You can call one service from another using its **service name + namespace**.
+
+```bash
+curl http://my-api.staging.svc.cluster.local:3000/health
+```
+- my-api → service name
+- staging → namespace (environment)
+- .svc.cluster.local → private network domain suffix
+
+## Use Cases
+- Connect a backend API to a database without public exposure.
+- Secure microservice-to-microservice communication inside the same environment.
+- Run internal-only workloads (admin panels, monitoring agents).
+
+## Public vs Private
+| Network Type | Accessible From | Use Case                                  |
+| ------------ | --------------- | ----------------------------------------- |
+| **Public**   | Internet        | Exposing APIs, websites, external clients |
+| **Private**  | Internal only   | Databases, internal APIs, secure services |
+
+
+## Best Practices
+- Use private network for all databases and sensitive services.
+- Only expose public endpoints when necessary.
+- Combine with TCP Proxy for secure DB access if needed externally.
+- Use private services + internal links to connect across environments.

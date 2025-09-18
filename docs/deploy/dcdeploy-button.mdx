@@ -1,0 +1,67 @@
+---
+title: DCDeploy Button
+description: The **DCDeploy Button** allows you to share ready-to-deploy projects with a single click. It’s designed for **open-source maintainers, educators, and teams** who want others to quickly launch a project on **dcdeploy** without manual setup.
+---
+
+---
+
+## How it works
+
+- You add a **DCDeploy Button** to your project’s README or docs.  
+- The button links to dcdeploy with your **repository URL** pre-filled.  
+- When users click it, dcdeploy automatically:
+  - Forks/clones the repo  
+  - Reads the `dcdeploy.yml` (deployment config)  
+  - Launches the services in the cloud  
+
+---
+
+## Markdown Example
+
+Add this to your **GitHub README.md**:
+
+```markdown
+[![Deploy with DCDeploy](https://dcdeploy.com/button.svg)](https://dcdeploy.com/deploy?repo=https://github.com/username/project)
+```
+This will render a button:
+
+### Example: Node.js Project
+If your repository has this dcdeploy.yml:
+
+```yaml
+services:
+  app:
+    type: service
+    machineType: DCD-1
+    regions: India
+    image: node:20
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    ports:
+      - 3000
+    protocol: http
+    minScale: 1
+    maxScale: 5
+```    
+Then anyone clicking your button will get a fully deployed Node.js app with scaling, health checks, and logs included.
+
+### Benefits
+- Instant Deployment – Launch apps with zero setup.
+- Developer Friendly – Great for hackathons, demos, and onboarding.
+- Open Source Ready – Helps contributors test your project in their own environment.
+- One-Click Cloud – No manual config, works straight from GitHub.
+
+### Best Practices
+- Always include a dcdeploy.yml in your repo.
+- Use environment variables for secrets instead of hardcoding.
+- Provide a README section explaining how the button works.
+- Test your project by clicking your own button before sharing.
+
+By adding the DCDeploy Button to your repositories, you make it effortless for anyone to clone, deploy, and scale your projects in the cloud.
+
+--- 
+
+## Learn more
+- [DCDeploy YAML](./dcdeploy-yml)  
+- [Environment Variables](./environment-variables)  
+- [Workload Types](./workload-types) 

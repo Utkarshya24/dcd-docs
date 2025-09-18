@@ -1,0 +1,50 @@
+---
+title: Build Minutes Pricing
+description: Learn how dcdeploy calculates and charges for build minutes. Currently, all build minutes are unlimited and free of cost.
+---
+
+## Overview
+
+When you push code to your repository or trigger a **Rebuild & Deploy**, dcdeploy performs a **build process** to generate the Docker image for your service.  
+This process consumes **build minutes** — the total time taken by dcdeploy’s infrastructure to compile, package, and prepare your application image.
+
+---
+
+## Current Pricing
+
+-  **Unlimited build minutes** for all plans.  
+-  **No extra charges** are applied for builds.  
+-  Every build runs on high-performance infrastructure without time restrictions.  
+
+This means you can push commits, trigger builds, and redeploy as many times as needed **without worrying about build minute limits**.
+
+---
+
+## Future Updates
+
+While build minutes are currently unlimited, dcdeploy may introduce:
+
+- **Plan-based limits** (e.g., Free tier with capped minutes, Pro with higher or unlimited).  
+- **Additional usage-based pricing** for extremely heavy workloads.  
+- **Build caching optimizations** to reduce build time and costs.  
+
+> ⚠️ If dcdeploy introduces build minute quotas in the future, you’ll be notified in advance and can review the updated pricing at [dcdeploy.com/pricing](https://dcdeploy.com/pricing).
+
+---
+
+## Best Practices
+
+Even though build minutes are unlimited, it’s good to:
+
+-  Use **Docker layer caching** to speed up builds.  
+-  Keep your **Dockerfile optimized** to reduce build time.  
+-  Use **multi-stage builds** for smaller and faster images.  
+-  Avoid unnecessary rebuilds by using **Redeploy** when only code/config changes.  
+
+---
+
+## Learn More
+
+- [Rebuild & Deploy](./rebuild-deploy)  
+- [Redeploy](./redeploy)  
+- [Plans & Pricing](./plans-usage)  

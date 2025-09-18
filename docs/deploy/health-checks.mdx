@@ -1,0 +1,55 @@
+---
+title: Health Checks
+description: Health checks in dcdeploy ensure that your workloads are **running correctly** and can handle traffic reliably. By defining health checks, you can detect and recover from failures automatically.
+---
+
+---
+
+## Types of health checks
+
+### 1. Liveness Probe
+- Ensures the container is still running.  
+- If the liveness check fails, dcdeploy automatically **restarts the container**.  
+- Prevents workloads from staying stuck in an unhealthy state.  
+
+```yaml
+health:
+  liveness:
+    path: /healthz
+    interval: 30s
+    timeout: 5s
+    retries: 3
+```
+### 2. Readiness Probe
+- Ensures the workload is ready to accept traffic.
+- If the readiness check fails, dcdeploy temporarily removes the instance from the load balancer.
+- Useful for apps that need some startup time before serving requests.
+
+```yaml
+health:
+  readiness:
+    path: /ready
+    interval: 10s
+    timeout: 3s
+    retries: 5
+```
+--- 
+
+### Benefits
+- High availability – Only healthy instances serve requests.
+- Automatic recovery – Unhealthy containers are restarted automatically.
+- Reduced downtime – Prevents routing to failing workloads.
+
+### Best practices
+- Use /healthz or /status endpoints that return a simple 200 OK.
+- Ensure your readiness check only passes after dependencies (DB, cache, APIs) are ready.
+- Keep health checks lightweight to avoid adding load on your service.
+
+By setting up Health Checks, you ensure that dcdeploy maintains reliable, self-healing workloads that can scale confidently under traffic.
+
+---
+
+## Learn more
+- [DCDeploy YAML](./dcdeploy-yml)  
+- [Environment Variables](./environment-variables)  
+- [Workload Types](./workload-types)  

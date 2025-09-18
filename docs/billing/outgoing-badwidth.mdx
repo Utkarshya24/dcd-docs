@@ -1,0 +1,63 @@
+---
+title: Outgoing Bandwidth
+description: Understand how outgoing bandwidth usage is measured and managed in dcdeploy. Each organization gets 1TB of free outgoing bandwidth per month.
+---
+
+## Overview
+Outgoing bandwidth refers to the amount of data transferred **from dcdeploy workloads to the public internet**.  
+Every organization on dcdeploy gets **1TB of free outgoing bandwidth per month**. After this limit, additional usage may incur charges.
+
+---
+
+## Use Cases
+- Hosting APIs or web apps accessed by external clients.  
+- Serving static files, media, or downloads to users.  
+- Handling traffic spikes from public-facing services.  
+
+---
+
+## Bandwidth Allocation
+- **1TB per month** included free per organization.  
+- Applies across **all environments, workloads, and services** under the org.  
+- Ingress (incoming traffic to workloads) is **not charged**.  
+
+---
+
+## Monitoring Bandwidth Usage
+You can track outgoing bandwidth from the **dcdeploy dashboard**:
+
+1. Go to **Settings → Usage & Billing**.  
+2. Check the **Daily Usage** chart for data transfer costs.  
+3. View **Usage by Environment** to see which workloads consume the most bandwidth.  
+
+Example (UI):  
+- env1 → 600GB  
+- api-service → 200GB  
+- file-storage → 150GB  
+- db → negligible  
+
+---
+
+## Best Practices
+- Use a **CDN (e.g., Cloudflare, AWS CloudFront)** to reduce direct bandwidth usage.  
+- Compress responses with **gzip** or **brotli** to reduce data size.  
+- Cache frequently accessed assets to avoid repeated transfers.  
+- Monitor usage regularly to avoid hitting limits.  
+
+---
+
+## Troubleshooting
+- **High unexpected bandwidth usage**  
+  - Check logs for unusually large file downloads.  
+  - Ensure you’re not accidentally exposing large public endpoints.  
+
+- **Service throttled after exceeding limit**  
+  - Review your billing plan for overage charges.  
+  - Optimize traffic using caching/CDN.  
+
+---
+
+## Learn More
+- [Plans & Pricing](./plans-usage)  
+- [Usage & Billing](./usage-and-billing)  
+- [Health Checks](./health-checks)  

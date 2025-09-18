@@ -1,0 +1,146 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "willow",
+  "name": "DCDeploy Docs",
+  "colors": {
+    "primary": "#0D5487",
+    "light": "#1A74B3",
+    "dark": "#09375C"
+  },
+  "favicon": "/favicon.png",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "icon": "book-open",
+        "pages": [
+          "docs/Overview",
+          "docs/quickstart",
+          {
+            "group": "Getting started",
+            "pages": [
+              {
+                "group": "Deploy",
+                "pages": [
+                  "docs/deploy/Overview",
+                  "docs/deploy/deploy-docker-image",
+                  "docs/deploy/deploy-github-repo",
+                  "docs/deploy/deploy-db",
+                  "docs/deploy/autoScaling-by-network-rps",
+                  "docs/deploy/environment-variables",
+                  "docs/deploy/workload-types",
+                  "docs/deploy/dcdeploy-yaml",
+                  "docs/deploy/clone-service",
+                  "docs/deploy/scale-to-zero",
+                  "docs/deploy/health-checks",
+                  "docs/deploy/tcp-proxy",
+                  "docs/deploy/dcdeploy-button",
+                  "docs/deploy/redeploy",
+                  "docs/deploy/rebuild-deploy",
+                  "docs/deploy/service-management",
+                  "docs/deploy/ephemeral-persistant-storage",
+                  "docs/deploy/multiple-services",
+                  "docs/deploy/workload-details"
+                ]
+              },
+              {
+                "group": "Networking",
+                "pages": [
+                  "docs/networking/domains",
+                  "docs/networking/private-network",
+                  "docs/networking/tcp-proxy",
+                  "docs/networking/edge-network",
+                  "docs/networking/outbound-bandwidth"
+                ]
+              },
+              {
+                "group": "Security",
+                "pages": [
+                  "docs/security/user-roles-and-permissions",
+                  "docs/security/private-services-and-db-using-internal-link",
+                  "docs/security/ssl-configuration",
+                  "docs/security/tcp-proxy-ssl-configuration",
+                  "docs/security/how-platform-is-keeping-for-security",
+                  "docs/security/audit-logs-&-activity",
+                  "docs/security/CF-DDOS-and-default-api-rate-limits",
+                  "docs/security/private-network"
+                ]
+              },
+              {
+                "group": "Observability",
+                "pages": [
+                  "docs/Observability/logs",
+                  "docs/Observability/metrics",
+                  "docs/Observability/Alerts"
+                ]
+              },
+              {
+                "group": "Billing",
+                "pages": [
+                  "docs/billing/plans-and-usage",
+                  "docs/billing/invoices",
+                  "docs/billing/build-minutes-pricing",
+                  "docs/billing/outgoing-badwidth",
+                  "docs/billing/persistant-volumes"
+                ]
+              },
+              {
+                "group": "Management",
+                "pages": [
+                  "docs/management/org-management",
+                  "docs/management/env-management"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Legal",
+            "pages": [
+              "docs/legal/fair-use",
+              "docs/legal/privacy",
+              "docs/legal/terms"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Changelogs",
+        "icon": "clock-rotate-left",
+        "href": "https://dcdeploy.com/blog"
+      },
+      {
+        "tab": "Blog",
+        "icon": "newspaper",
+        "href": "https://dcdeploy.com/blog"
+      },
+      {
+        "tab": "Pricing",
+        "icon": "landmark",
+        "href": "https://dcdeploy.com/pricing"
+      }
+    ]
+  },
+  "logo": {
+    "light": "/logo/logoSVG.png",
+    "dark": "/logo/logoSVG.png"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Status",
+        "href": "https://dcdeploy.instatus.com"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://dash.dcdeploy.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/DCDeploy",
+      "linkedin": "https://www.linkedin.com/company/dcdeploy"
+    }
+  }
+}

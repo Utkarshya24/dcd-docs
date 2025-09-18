@@ -1,0 +1,57 @@
+---
+title: Scale to Zero
+description: Scale to Zero allows your workloads to automatically shut down when they are idle, reducing costs by only running when requests are actively being served.
+---
+
+---
+
+## How it works
+
+- **Idle detection** – When your service does not receive any incoming network requests for a defined period, dcdeploy automatically scales it down to **0 active instances**.  
+- **On-demand activation** – As soon as a new request comes in, dcdeploy instantly brings up the workload, ensuring that users experience minimal cold start delay.  
+- **Pay for what you use** – Since no instances are running when idle, you are not charged for compute during downtime. Only storage and minimal networking costs may apply.
+
+---
+
+## Benefits
+
+- **Cost Savings** – Avoid paying for idle compute resources.  
+- **Elastic Scaling** – Automatically scale back up when traffic resumes.  
+- **Efficient Resource Utilization** – Free up compute capacity for active workloads.  
+
+---
+
+## Use cases
+
+- **APIs with irregular traffic** – Great for services that only get requests occasionally.  
+- **Development & Testing** – Save costs by running environments only when developers interact with them.  
+- **Event-driven apps** – Ideal for apps that process tasks in bursts rather than continuously.  
+
+---
+
+## Configuration
+
+Enable **Scale to Zero** in your workload configuration:
+
+```yaml
+scaling:
+  minInstances: 0
+  maxInstances: 10
+  trigger: rps
+minInstances: 0 → Enables scale-to-zero.
+maxInstances → Defines the maximum scaling limit.
+trigger → Defines the metric used for scaling (e.g., rps = network requests per second).
+```
+Things to keep in mind
+Cold starts may introduce slight latency for the first request after scaling from 0.
+
+Not recommended for workloads requiring always-on availability (e.g., real-time systems).
+
+Persistent storage and databases are not affected — only compute instances scale down.
+
+With Scale to Zero, dcdeploy ensures your apps remain cost-efficient, responsive, and cloud-native by design.
+
+## Learn more
+- [DCDeploy YAML](./dcdeploy-yml)  
+- [Environment Variables](./environment-variables)  
+- [Workload Types](./workload-types)  

@@ -1,0 +1,104 @@
+---
+title: TCP Proxy SSL Configuration
+description: Secure TCP connections to databases and services in dcdeploy using SSL certificates for encrypted communication.
+---
+
+dcdeploy provides a **TCP Proxy** feature to expose databases and custom TCP-based services securely.  
+When SSL is enabled, all traffic between your client and the service is **encrypted**, ensuring data confidentiality and integrity.
+
+---
+
+## Overview
+
+- **Secure database connections** using SSL/TLS.  
+- Works with **Postgres, MySQL, MongoDB, Redis, and other TCP-based services**.  
+- Certificates are automatically issued and managed by dcdeploy.  
+- Supports both **public TCP URLs** and **private network connections**.  
+
+---
+
+## Use Cases
+
+- Connect to **databases** from external clients securely.  
+- Enforce **SSL-only connections** for compliance and security.  
+- Protect sensitive workloads (e.g., financial, healthcare, production apps).  
+
+---
+
+## Enabling SSL for TCP Proxy
+
+When exposing a database/service over TCP, enable SSL in your service configuration.  
+
+Example for a Postgres service:
+
+```yaml
+services:
+  my-db:
+    type: postgres
+    exposeTCP: true
+    ssl: true
+```    
+- exposeTCP: true → Enables public TCP proxy.
+- ssl: true → Enforces SSL for connections.
+
+## Connecting to Databases with SSL
+Postgres Example
+```bash
+psql "host=my-db.dcdeploy.cloud port=5432 dbname=mydb user=myuser password=mypass sslmode=require"
+```
+MySQL Example
+```bash
+mysql --host=my-db.dcdeploy.cloud --port=3306 --user=myuser --password --ssl-mode=REQUIRED
+```
+MongoDB Example
+```bash
+mongo "mongodb://myuser:mypass@my-db.dcdeploy.cloud:27017/mydb?ssl=true"
+```
+
+## Using SSL Certificates
+Some clients require explicit SSL certificates for validation. dcdeploy provides:
+- CA Certificate – to verify server identity.
+- Client Certificate & Key – for mutual TLS (optional).
+
+Download from the dcdeploy dashboard → Database → SSL Certificates.
+
+Example:
+
+```bash
+psql "host=my-db.dcdeploy.cloud port=5432 dbname=mydb user=myuser password=mypass sslmode=verify-full sslrootcert=ca.pem"
+```
+Example: Node.js (Postgres with SSL)
+```javascript
+import { Client } from 'pg';
+import fs from 'fs';
+
+const client = new Client({
+  host: 'my-db.dcdeploy.cloud',
+  port: 5432,
+  database: 'mydb',
+  user: 'myuser',
+  password: 'mypass',
+  ssl: {
+    rejectUnauthorized: true,
+    ca: fs.readFileSync('./ca.pem').toString(),
+  },
+});
+
+await client.connect();
+```
+
+## Troubleshooting
+- SSL connection error
+  - Ensure sslmode=require or equivalent flag is set.
+  - Check if the CA certificate is loaded correctly.
+- Timeouts
+  - Verify the service is exposed with exposeTCP: true.
+  - Check firewall or VPN restrictions.
+- Self-signed certificate errors
+  - Use sslmode=verify-full with the provided CA cert.
+
+## Best Practices
+- Always enable SSL for external TCP connections.
+- Use private networking if clients are inside the same dcdeploy environment.
+- Rotate client certificates periodically.
+- Enforce mutual TLS for sensitive workloads.

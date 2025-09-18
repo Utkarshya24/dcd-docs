@@ -1,0 +1,71 @@
+---
+title: Platform Security
+description: How dcdeploy ensures workload and data security using Cilium, Kata Containers, encryption at rest, secrets management, and isolation.
+---
+
+dcdeploy is designed with **security as a core principle**, ensuring that applications and data are protected at every layer.  
+From the **network plane** to the **container runtime**, dcdeploy applies modern security practices for safe multi-tenant operations.
+
+---
+
+## Security Layers
+
+### 1. Network Security with Cilium
+- dcdeploy uses **Cilium (eBPF-based networking)** for workload communication.  
+- Provides **identity-aware network policies** instead of relying only on IPs.  
+- Enforces **zero-trust networking** between services and environments.  
+- Prevents lateral movement by restricting unauthorized connections.  
+
+Example policy:
+```yaml
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: db-access
+spec:
+  endpointSelector:
+    matchLabels:
+      app: my-service
+  egress:
+  - toEndpoints:
+    - matchLabels:
+        app: my-db
+```        
+### 2. Workload Isolation with Kata Containers
+- Containers run inside lightweight VMs using Kata Containers.
+- Provides hardware-enforced isolation between tenants.
+- Limits the blast radius in case of container escape exploits.
+- Delivers the speed of containers with the security boundary of VMs.
+
+### 3. Data Security – Encryption at Rest
+- All persistent volumes and databases use AES-256 encryption at rest.
+- Keys are managed and rotated automatically by the platform.
+- Ensures compliance with security standards (GDPR, HIPAA, SOC2).
+- Even if disks are compromised, data remains unreadable.
+
+### 4. Secrets Management
+- Secrets (API keys, tokens, passwords) are stored in encrypted secret stores.
+- Mounted into workloads only at runtime.
+- Never exposed in build logs, environment dumps, or plaintext configs.
+- Access is scoped to specific environments and services.
+
+Example in dcdeploy.yml:
+
+```yaml
+services:
+  my-app:
+    env:
+      - name: DB_PASSWORD
+        valueFromSecret: db_password
+```
+
+### 5. Multi-Tenant Isolation
+- Each workload is isolated by namespace, network, and VM boundaries.
+- Shared resources (CPU, memory, disk) are carefully quota-controlled.
+- Prevents noisy neighbors or malicious workloads from impacting others.
+
+## Best Practices for Developers
+- Always store sensitive data in Secrets, not plain env variables.
+- Use private networking for internal service-to-service communication.
+- Regularly rotate database and API credentials.
+- Enable health checks to avoid cascading failures from unhealthy services.

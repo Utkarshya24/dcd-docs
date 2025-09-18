@@ -1,0 +1,36 @@
+---
+title: Outbound Bandwidth
+description: 1TB of free outbound data transfer per organization each month.
+---
+
+Every dcdeploy organization gets **1TB of outbound data transfer free per month**.  
+This applies to all workloads, environments, and domains combined.
+
+---
+
+## Details
+- Inbound traffic is always **free**.  
+- Outbound traffic beyond 1TB is billed per GB.  
+- Usage is aggregated across all environments in your organization.  
+
+---
+
+## Example
+
+| Plan                | Included Outbound | Additional Cost |
+|---------------------|-------------------|-----------------|
+| Default (per org)   | 1TB               | $0.10 / GB      |
+
+---
+
+## Monitoring Usage
+1. Navigate to **Org → Metrics**.  
+2. Check **Outbound Bandwidth** usage.  
+3. Set alerts for thresholds (e.g., 80% usage).  
+
+---
+
+## Best Practices
+- Use caching and CDNs to reduce outbound usage.  
+- Compress assets and enable gzip/brotli.  
+- Place databases in the same region as workloads to avoid unnecessary data egress.

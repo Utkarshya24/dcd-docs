@@ -1,0 +1,37 @@
+---
+title: Edge Network
+description: Deliver apps globally using Cloudflare’s edge network for performance and DDoS protection.
+---
+
+dcdeploy applications are delivered via **Cloudflare’s global edge network**.  
+This provides low-latency access, DDoS mitigation, and TLS termination by default.
+
+---
+
+## Benefits
+- **Global CDN caching** for faster delivery.  
+- **Automatic TLS/SSL** certificates.  
+- **DDoS protection** at the network edge.  
+- **Anycast routing** for reliability.  
+
+---
+
+## Use Cases
+- Deploying production web apps.  
+- Handling traffic spikes safely.  
+- Reducing latency for global users.  
+
+---
+
+## Example
+
+When you bind a custom domain:
+```txt
+CNAME → myapp.dcdeploy.cloud
+Traffic is automatically routed via Cloudflare’s edge.
+```
+
+##  Best Practices
+- Keep your app stateless for maximum caching.
+- Use persistent volumes or managed databases for state.
+- Monitor metrics to optimize global performance.

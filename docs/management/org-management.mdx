@@ -1,0 +1,97 @@
+---
+title: Organization Management
+description: Manage organizations in dcdeploy including billing details, user access, deletion, and applicable limits.
+---
+
+## Overview
+Organizations in dcdeploy are the top-level resource for grouping environments, workloads, and users.  
+Each organization comes with its own billing, usage limits, and member management features.
+
+---
+
+## Billing Details
+You can set up and update billing information for your organization.
+
+1. Go to **Settings → Usage and Billing**.  
+2. Under **Billing Information**, provide:
+   - Name & Email  
+   - Address (City, State, Country, Postal Code)  
+   - Business flag (optional)  
+3. Click **Save** to update billing info.  
+
+> ⚠️ This information appears on all invoices generated for the organization.
+
+---
+
+## Delete Organization
+Organizations can be **permanently deleted**, including their environments, workloads, and associated billing data.
+
+1. Go to **Settings → General**.  
+2. Scroll down to **Delete Organization**.  
+3. Confirm deletion by clicking **Delete**.  
+
+> ⚠️ This action is irreversible. Ensure you back up data before deleting.
+
+---
+
+## User Management
+You can invite, manage, and remove users from an organization.
+
+### Add a User
+1. Go to **Settings → Users**.  
+2. Click **Invite User**.  
+3. Enter the email address and assign a **role**:
+   - **Owner** – Full access including billing and org deletion.  
+   - **Developer** – Can deploy and manage services, but no billing access.  
+4. The user receives an email invitation.  
+
+### Remove a User
+- Navigate to **Settings → Users**.  
+- Click the action menu (⋮) beside the user.  
+- Select **Delete**.  
+
+---
+
+## Applicable Limits
+Each organization has limits depending on its plan:
+<Tabs>
+  <Tab title="Basic Plan">
+
+| Resource                          | Allowed |
+|-----------------------------------|---------|
+| Organizations per account         | 4       |
+| Environments per organization     | 4       |
+| Workloads per environment         | 5       |
+| Users per organization            | 3       |
+| Custom domains per organization   | 5       |
+| Regions                           | All     |
+
+</Tab>
+<Tab title="Pro Plan">
+
+| Resource                          | Allowed |
+|-----------------------------------|---------|
+| Organizations per account         | 1       |
+| Environments per organization     | 1       |
+| Workloads per environment         | 1       |
+| Users per organization            | 1       |
+| Custom domains per organization   | 0       |
+| Regions                           | 1       |
+
+</Tab>
+</Tabs>
+
+---
+
+## Best Practices
+- Use separate organizations for **production** and **staging** projects.  
+- Assign **Owner** roles carefully; only trusted team members should manage billing.  
+- Regularly review user access to maintain security.  
+- Monitor usage under **Settings → Usage and Billing** to avoid unexpected costs.  
+
+---
+
+## Learn More
+- [Invoices](./invoices)  
+- [Plans & Pricing](./plans-pricing)  
+- [Usage](./usage)  

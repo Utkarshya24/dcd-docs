@@ -1,0 +1,109 @@
+---
+title: Workload Types
+description: DCDeploy supports multiple workload types to match the nature of your application or service. Choosing the right workload type ensures resources are allocated efficiently and scaling policies behave as expected.
+
+---
+
+## Available workload types
+
+### 1. **Service**
+- Long-running processes designed to handle network traffic (HTTP, gRPC, TCP).
+- Typically used for APIs, web apps, or microservices.
+- Can be autoscaled based on **CPU, memory, or network RPS**.
+
+**Example:**
+```yaml
+service:
+  name: api-service
+  image: ghcr.io/example/api:1.0.0
+  port: 8080
+  type: service
+```
+
+---
+
+### 2. **Database**
+- Managed databases or custom DB images you deploy.
+- Persistent storage enabled.
+- Optimized for durability and stateful workloads.
+
+**Example:**
+```yaml
+service:
+  name: postgres-db
+  image: postgres:15
+  port: 5432
+  type: database
+```
+{/*
+---
+
+ ### 3. **Job**
+- Short-lived processes that run to completion.
+- Suitable for background tasks, migrations, data processing.
+- Jobs can be scheduled, triggered manually, or run on deployment.
+
+**Example:**
+```yaml
+service:
+  name: data-migration
+  image: ghcr.io/example/migrate:2.1.0
+  type: job
+  command: ["npm", "run", "migrate"]
+```
+
+---
+
+### 4. **Cron Job**
+- Recurring scheduled jobs.
+- Use cron expressions for scheduling.
+
+**Example:**
+```yaml
+service:
+  name: nightly-report
+  image: ghcr.io/example/report-gen:1.0.0
+  type: cron
+  schedule: "0 2 * * *"   # Runs daily at 2 AM UTC
+``` 
+
+---*/}
+
+### 3. **Worker**
+- Background consumers that process messages from a queue (e.g., Kafka, RabbitMQ).
+- No direct HTTP exposure.
+
+**Example:**
+```yaml
+service:
+  name: queue-worker
+  image: ghcr.io/example/worker:latest
+  type: worker
+```
+
+---
+
+## Choosing the right workload type
+
+| Workload Type | Use Case |
+|---------------|----------|
+| **Service**   | Web apps, APIs, microservices |
+| **Database**  | Stateful data storage |
+| **Worker**    | Background queue/message processing |
+
+{/* | **Job**       | One-off or batch processes |
+| **Cron Job**  | Recurring scheduled tasks | */}
+---
+
+## Best practices
+- Use **Services** for stateless traffic-handling apps.
+- Run **Databases** only when you need custom DB setups (prefer managed DBs if available).
+{/* - For **Jobs/Cron Jobs**, keep them lightweight and idempotent. */}
+- Ensure **Workers** have retry logic and error handling.
+
+---
+
+## Learn more
+- [Environment Variables](./environment-variables)
+- [Autoscaling by Network RPS](./autoscaling-by-network-rps)
+- [Deploy Docker Image](./deploy/deploy-docker-image)

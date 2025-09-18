@@ -1,0 +1,59 @@
+---
+title: DDoS Protection & API Rate Limits
+description: How dcdeploy protects workloads with Cloudflare DDoS mitigation and enforced API rate limiting.
+---
+
+dcdeploy ensures that your applications stay online and secure under heavy traffic and potential attacks.  
+This is achieved through **Cloudflare’s global edge network** for DDoS mitigation and **default API rate limiting** to prevent abuse.
+
+---
+
+## Cloudflare DDoS Protection
+
+- All incoming traffic to dcdeploy workloads is routed through **Cloudflare’s edge network**.  
+- Protects against:
+  - **Layer 3/4 attacks** (volumetric floods, SYN floods, UDP floods).  
+  - **Layer 7 attacks** (HTTP floods, slowloris).  
+- Uses **intelligent traffic filtering** to allow legitimate users while blocking malicious requests.  
+- Provides **global anycast routing** for high availability and performance.  
+
+**Benefits**
+- Automatic mitigation of large-scale DDoS attacks.  
+- Zero downtime during attacks.  
+- Faster response due to Cloudflare’s **120+ edge locations worldwide**.  
+
+---
+
+## Default API Rate Limits
+
+To protect workloads from abuse and accidental overload, dcdeploy enforces **default request-per-second (RPS) limits**.
+
+### Per-Service Defaults
+- **Burst traffic allowed** (short spikes are absorbed).  
+- Sustained limits are applied per service instance.  
+- Requests beyond the threshold return:  
+  ```http
+  429 Too Many Requests
+  ```
+Example
+```yaml
+services:
+  my-app:
+    type: service
+    ports:
+      - 443
+    protocol: https
+    limits:
+      rps: 100   # default applied per instance
+```
+
+### Use Cases
+- Protection against brute force attacks – prevents credential stuffing or API abuse.
+- Fair usage enforcement – ensures no single client can overload your workloads.
+- Cost control – keeps autoscaling predictable and avoids unnecessary overprovisioning.
+
+### Best Practices
+- Use authentication + rate limiting in your app for per-user control.
+- Configure autoscaling by RPS if you expect sudden traffic surges.
+- Monitor logs for repeated 429 Too Many Requests errors.
+- For enterprise workloads, request custom rate limits via support.

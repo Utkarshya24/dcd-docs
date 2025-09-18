@@ -1,0 +1,82 @@
+---
+title: SSL Configuration
+description: Configure and manage SSL/TLS certificates for your applications and services in dcdeploy for secure HTTPS traffic.
+---
+
+dcdeploy automatically provisions and manages **SSL/TLS certificates** for your applications, ensuring all traffic is served securely over **HTTPS**.  
+You can use SSL with both **default `.cloud` domains** and **custom domains**.
+
+---
+
+## Overview
+
+- **Automatic SSL** – Free SSL certificates issued via Let’s Encrypt.  
+- **Supported domains** – Works with dcdeploy’s default `.cloud` domains and your custom domains.  
+- **Auto-renewal** – Certificates are renewed automatically before expiry.  
+- **Zero-downtime updates** – Certificates refresh without interrupting traffic.  
+
+---
+
+## Use Cases
+
+- Secure your **web apps** and **APIs** with HTTPS.  
+- Enforce **end-to-end encryption** for sensitive workloads.  
+- Deploy custom domains with **trusted certificates**.  
+
+---
+
+## SSL on Default Domains
+
+All workloads deployed with a `.cloud` domain (e.g., `myapp.dcdeploy.cloud`) automatically get SSL enabled.  
+You don’t need to configure anything.
+
+Example:  
+```bash
+https://myapp.dcdeploy.cloud
+```
+## SSL on Custom Domains
+When using a custom domain, dcdeploy provisions and manages SSL certificates automatically after you point DNS to the platform.
+
+### Steps:
+1. Add your custom domain in the dcdeploy dashboard.
+2. Update your DNS records to point to the provided target (CNAME or A record).
+3. Wait for validation.
+4. SSL certificate is issued and HTTPS is enabled automatically.
+
+## Enforcing HTTPS
+By default, SSL is enabled, but you may also enforce strict HTTPS redirection:
+
+```yaml
+services:
+  my-app:
+    domains:
+      - name: myapp.com
+        forceSSL: true
+```        
+This ensures all HTTP traffic is redirected to HTTPS.
+
+## Example: Multi-Domain SSL
+```yaml
+services:
+  my-api:
+    domains:
+      - name: myapi.com
+        forceSSL: true
+      - name: api.mycompany.com
+```      
+Both domains will have SSL certificates provisioned and managed automatically.
+
+## Troubleshooting
+- SSL not active?
+  - Check if your DNS is pointing correctly to dcdeploy.
+  - Verify DNS propagation (can take a few minutes).
+- Certificate pending?
+  - Ensure there are no conflicting DNS records (e.g., another A record or CNAME).
+- Expired certificate?
+  - Certificates are auto-renewed. If still expired, check logs and contact support.
+
+## Best Practices
+- Always enable forceSSL for production workloads.
+- Use custom domains with SSL for customer-facing apps.
+- Avoid exposing workloads without SSL unless strictly necessary.
+- Combine SSL with private networking for internal-only services.

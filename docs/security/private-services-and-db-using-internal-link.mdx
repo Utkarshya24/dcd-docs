@@ -1,0 +1,85 @@
+---
+title: Private Services and Databases using Internal Links
+description: Connect services and databases securely inside dcdeploy using internal DNS-based links, without exposing them to the public internet.
+---
+
+dcdeploy allows you to connect workloads and databases privately within an **internal network**.  
+Instead of exposing your service publicly with a domain or TCP proxy, you can use **internal links** that resolve via private DNS inside your organization and environments.
+
+This ensures:
+- **Secure communication** – no public internet exposure.  
+- **Low latency** – direct private network traffic.  
+- **Isolation** – workloads only talk to what they are allowed to.  
+
+---
+
+## Overview
+
+- Every service in dcdeploy can be given an **internal hostname**.  
+- Internal DNS works automatically across services inside the **same environment**.  
+- Supported for **applications, APIs, and databases**.  
+- Works across **environments** if private networking is enabled.  
+
+---
+
+## Use Cases
+
+- Microservices communicating privately (e.g., API ↔ Worker ↔ DB).  
+- Databases accessible only from backend services, not the internet.  
+- Multi-environment internal communication (e.g., staging → shared DB).  
+- Avoiding public endpoints for sensitive workloads.  
+
+---
+
+## Internal Link Format
+
+Each service is automatically available at:
+```yaml
+<service-name>.<environment>.internal
+
+### Examples:
+
+- api: api.dev.internal
+- postgres: postgres.prod.internal
+- redis: redis.shared.internal
+```
+---
+
+## Example: Connecting to a Database
+
+Suppose you have a **PostgreSQL DB** and a **Node.js backend** in the same environment (`prod`).
+
+- **DB Internal Hostname:**  
+  `postgres.prod.internal`
+
+- **Backend Connection String:**  
+```env
+  DATABASE_URL = postgres://user:password@postgres.prod.internal:5432/mydb
+```
+The backend will connect to PostgreSQL without needing a public TCP proxy.
+
+### Example: Private Service-to-Service Communication
+
+Frontend (Next.js) → Backend (Express API) → Database (Postgres)
+- Frontend connects to backend.prod.internal:3000
+- Backend connects to postgres.prod.internal:5432
+No public domains are required; traffic stays internal.
+
+## Best Practices
+
+- Use internal links by default for all service-to-service communication.
+- Only enable public domains / TCP proxies when external access is required.
+- Keep secrets (DB URLs, API keys) in dcdeploy secrets instead of hardcoding.
+- Test connectivity with:
+
+```bash
+curl http://<service>.<env>.internal:<port>
+```
+
+## Troubleshooting
+- Can’t resolve internal hostnames?
+Ensure both workloads are in the same environment or private networking is enabled for cross-env.
+- Connection refused?
+Verify the target service is running and listening on the expected port.
+- Need external access temporarily?
+Use a TCP Proxy or Custom Domain for debugging, then disable when done.

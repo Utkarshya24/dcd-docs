@@ -1,0 +1,138 @@
+---
+title: DCDeploy YAML
+description: Every deployment in DCDeploy is defined using a **`dcdeploy.yaml`** file. This manifest describes your workloads, how to build them, scaling limits, ports, regions, and environment configuration. Below is a breakdown of the structure with an example.
+---
+
+---
+## Example: `dcdeploy.yaml`
+
+```yaml
+services:
+  nikaniki:
+    type: service
+    machineType: DCD-1
+    regions: India
+    build:
+      context: ./
+      dockerfilePath: ./Dockerfile
+      private: true
+      autoBuild: true
+      repo: dcdeploy-labs/ecom-api
+      ref: main
+      refType: branch
+      commitHash: 6970cad1cc13f5f542fcb3b4714695d6f69330b8
+    ports:
+      - 45
+    minScale: 1
+    maxScale: 1
+    protocol: https
+
+  madeline:
+    type: service
+    machineType: DCD-2
+    regions: India
+    image: nginx
+    ports:
+      - 80
+    minScale: 1
+    maxScale: 1
+    protocol: https
+
+  yt:
+    type: service
+    machineType: DCD-2
+    regions: India
+    build:
+      context: ./
+      dockerfilePath: ./Dockerfile
+      repo: https://github.com/Utkarshya24/markedDownSyntax
+      ref: master
+      refType: branch
+      commitHash: bd1f517f0a03f2fd202152cffbf1d4aa144d34c7
+      autoBuild: false
+      private: false
+    ports:
+      - 3000
+    minScale: 1
+    maxScale: 1
+    protocol: https
+```
+
+---
+
+## Top-level fields
+
+### `services`
+Defines all workloads (apps, APIs, background workers). Each key under `services:` is the unique service name.
+
+---
+
+## Service fields
+
+### `type`
+Specifies the workload type. Currently supported:
+- `service` → Long-running service accessible via HTTP(s).
+
+### `machineType`
+Defines the compute size used. Examples:
+- `DCD-1` → Small (low-cost)
+- `DCD-2` → Medium
+
+### `regions`
+Specifies the deployment region. Example: `India`, `US-East`, `Europe`.
+
+### `build`
+Describes how to build the container image.
+- `context` → Path to the build directory.
+- `dockerfilePath` → Path to the Dockerfile.
+- `repo` → Source repository (GitHub/GitLab).
+- `ref` → Branch, tag, or commit reference.
+- `refType` → Type of ref (`branch`, `tag`, `commit`).
+- `commitHash` → Pin to a specific commit.
+- `autoBuild` → If true, DCDeploy auto-builds on new commits.
+- `private` → If true, repository is private.
+
+### `image`
+Instead of `build`, you can directly use a pre-built Docker image:
+
+```yaml
+image: nginx:latest
+```
+
+### `ports`
+List of exposed container ports (e.g., `80`, `3000`).
+
+### `protocol`
+Defines network protocol: `http` or `https`.
+
+### `minScale` / `maxScale`
+Defines autoscaling range.
+- `minScale` → Minimum instances always running.
+- `maxScale` → Maximum instances allowed.
+
+### `environment`
+Optional key-value pairs for environment variables.
+
+```yaml
+environment:
+  GEMINI_API_KEY: your-api-key
+  MONGO_URI: mongodb+srv://...
+```
+
+---
+
+## Best practices
+
+- Use **`autoBuild: true`** for continuous deployment.
+- Prefer **`image`** for stable, pre-built containers.
+- Always pin builds with `commitHash` to ensure reproducibility.
+- Keep secrets in `environment` or [Secrets Manager](./environment-variables).
+- Use appropriate `minScale`/`maxScale` to balance cost and availability.
+
+---
+
+## Learn more
+
+- [Workload Types](./workload-types)
+- [Environment Variables](./environment-variables)
+- [Autoscaling by Network RPS](./autoscaling-by-network-rps)

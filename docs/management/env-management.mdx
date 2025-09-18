@@ -1,0 +1,54 @@
+---
+title: Environment Management
+description: Manage your environments in dcdeploy including rename, clone, and delete operations.
+---
+
+Environments in dcdeploy represent isolated spaces for your workloads (e.g., `dev`, `staging`, `production`).  
+They allow you to test, deploy, and manage applications separately.
+
+---
+
+## Rename an Environment
+You can rename an environment to better reflect its purpose.
+
+1. Navigate to **Environment → Settings**.  
+2. Update the **Environment Name** field.  
+3. Click **Save**.  
+
+> ⚠️ Renaming does not affect workloads, secrets, or configurations linked to the environment.
+
+---
+
+## Clone an Environment
+Easily duplicate an existing environment to create a copy with the same configurations.
+
+1. Go to **Environment → Settings**.  
+2. Select **Clone Environment**.  
+3. Provide a new name for the cloned environment.  
+4. Click **Clone**.  
+
+The cloned environment includes:
+- Workloads and configurations  
+- Secrets and variables  
+- Networking settings  
+
+> ⚠️ Billing and usage are tracked separately for cloned environments.
+
+---
+
+## Delete an Environment
+Environments can be permanently deleted when no longer needed.
+
+1. Navigate to **Environment → Settings**.  
+2. Scroll to **Delete Environment**.  
+3. Confirm by clicking **Delete**.  
+
+> ⚠️ This action is irreversible. All workloads, secrets, and associated billing data will be removed.
+
+---
+
+## Best Practices
+- Use **cloning** to quickly set up staging from production.  
+- Keep environment names descriptive (`dev2`, `staging`, `prod`).  
+- Always review secrets before cloning to avoid leaking sensitive data.  
+- Delete unused environments to optimize costs.  

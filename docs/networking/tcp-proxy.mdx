@@ -1,0 +1,43 @@
+---
+title: TCP Proxy
+description: Expose workloads over raw TCP using dcdeploy’s managed proxy.
+---
+
+dcdeploy supports **TCP proxies** for workloads that require raw TCP connections  
+(e.g., databases, custom services, or non-HTTP protocols).
+
+---
+
+## When to Use
+- Running PostgreSQL, MySQL, Redis, or other TCP-based services.  
+- Exposing internal tools that don’t use HTTP.  
+- Secure external access to non-web workloads.  
+
+---
+
+## Configuration
+
+1. Go to **Deploy-tab → Add database**.  
+2. Enable **TCP Proxy**.  
+3. Select the port(s) you want exposed.  
+4. A public TCP endpoint will be provisioned.
+
+---
+
+## Example: PostgreSQL
+
+```yaml
+services:
+  db:
+    image: postgres:16
+    ports:
+      - "5432:tcp"
+    proxy: true
+```
+### Result:
+Public TCP URL → tcp://db-xyz.dcdeploy.cloud:5432
+
+### Security Notes
+- Always require authentication (databases, SSH).
+- Restrict IP access using firewall rules if possible.
+- Use TLS where supported.

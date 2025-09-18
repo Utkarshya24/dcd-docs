@@ -1,0 +1,73 @@
+---
+title: Ephemeral & Persistent Storage
+description: Understand the difference between ephemeral and persistent storage in dcdeploy and how to use each for your services effectively.
+---
+
+## Overview
+
+dcdeploy supports both **ephemeral** and **persistent storage**. Choosing the right type depends on whether your service data needs to survive container restarts or deployments.  
+
+- **Ephemeral Storage:** Temporary storage tied to the container lifecycle.  
+- **Persistent Storage:** Durable storage that survives container restarts and redeployments.  
+
+---
+
+## Ephemeral Storage
+
+- Created automatically with a container.  
+- Data is lost when the container stops, restarts, or is deleted.  
+- Best for:  
+  - Temporary caches  
+  - Session storage  
+  - Scratch data during builds or computation  
+
+**CLI Example:**
+```bash
+# Start a container with ephemeral storage
+dcd start <service-name>
+```
+#### Notes: 
+- Use for stateless services or data that can be regenerated.
+- No additional configuration needed.
+
+## Persistent Storage
+- Separate storage volume that survives container restarts or redeploys.
+- Ideal for databases, uploaded files, or any critical data.
+
+## Dashboard:
+
+1. Navigate to the service → Volumes → Add Persistent Volume
+2. Mount the volume to the desired path in the container.
+3. Start the service; data persists across restarts and deployments.
+
+CLI Example:
+
+```bash
+Copy code
+# Attach a persistent volume to a service
+dcd volume attach <service-name> <volume-name>:/path/in/container
+```
+#### Notes:
+- Ensure volumes are backed up regularly.
+- Multiple services can share volumes if configured correctly.
+- Volumes can be migrated to other environments if needed.
+
+### Comparison Table
+| Feature         | Ephemeral Storage            | Persistent Storage                       |
+| --------------- | ---------------------------- | ---------------------------------------- |
+| Lifecycle       | Container only               | Survives restarts & redeploys            |
+| Use Case        | Caches, temp files, sessions | Databases, uploaded files, critical data |
+| Backup Required | No                           | Yes                                      |
+| Configuration   | Automatic                    | Requires volume setup                    |
+
+
+### Best Practices
+- Use ephemeral storage for stateless services and temporary data.
+- Use persistent storage for databases, user files, and critical data.
+- Regularly backup persistent volumes.
+- Avoid storing critical data on ephemeral storage.
+
+## Learn more
+- [DCDeploy YAML](./dcdeploy-yml)  
+- [Environment Variables](./environment-variables)  
+- [Workload Types](./workload-types) 

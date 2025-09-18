@@ -1,0 +1,88 @@
+---
+title: Environment Variables
+description: Environment variables let you configure services in DCDeploy without hard-coding values into your source code or container images. Use them to define secrets, connection strings, API keys, and runtime configuration.
+---
+
+## Adding environment variables
+
+You can define environment variables while creating or updating a deployment:
+
+1. Go to your **Environment Dashboard** → select your service.
+2. add service and add **Environment Variables**, click **Add Variable**.
+3. Provide a **key** and **value**.
+4. Save changes and **redeploy** for updates to take effect.
+
+---
+
+## Using in service manifests
+
+You can declare environment variables directly in the service manifest (`service.dcdeploy.yaml`):
+
+```yaml
+service:
+  name: webapp
+  image: ghcr.io/example/webapp:1.2.0
+  port: 8080
+
+env:
+  - name: DATABASE_URL
+    value: postgres://user:pass@db:5432/app
+  - name: NODE_ENV
+    value: production
+```
+
+---
+
+## Secrets management
+
+Sensitive values (e.g., database passwords, API keys) should be stored as **secrets**. DCDeploy automatically encrypts them and injects them at runtime.
+
+Example:
+
+```yaml
+env:
+  - name: API_KEY
+    valueFromSecret: my-api-key
+```
+
+Where `my-api-key` is managed in the **Secrets** section of the dashboard.
+
+---
+
+## Overriding variables
+
+- Variables defined in the dashboard UI override those in the manifest.
+- Redeployment is required for changes to apply.
+- Deleted variables are removed from the runtime environment on next deploy.
+
+---
+
+## Best practices
+
+- **Never hard-code secrets** in images or code.
+- **Use different env files** for dev, staging, and production.
+- **Prefix variables** for clarity (e.g., `DB_HOST`, `REDIS_URL`).
+- **Keep non-secret configs** (like `LOG_LEVEL`) separate from sensitive ones.
+
+---
+
+## Example usage in code
+<CodeGroup>
+
+```javascript helloWorld.js
+const dbUrl = process.env.DATABASE_URL;
+```
+
+```python hello_world.py
+import os
+DB_URL = os.getenv("DATABASE_URL")
+```
+
+</CodeGroup>
+
+
+## Learn more
+
+- [Deploy Docker Image](./deploy/deploy-docker-image)
+- [Autoscaling by Network RPS](./autoscaling-by-network-rps)
+- [Introduction](./introduction)
