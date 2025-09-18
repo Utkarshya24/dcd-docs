@@ -29,12 +29,12 @@
                   "docs/deploy/autoScaling-by-network-rps",
                   "docs/deploy/environment-variables",
                   "docs/deploy/workload-types",
-                  "docs/deploy/DCDeploy-yaml",
+                  "docs/deploy/dcdeploy-yaml",
                   "docs/deploy/clone-service",
                   "docs/deploy/scale-to-zero",
                   "docs/deploy/health-checks",
                   "docs/deploy/tcp-proxy",
-                  "docs/deploy/DCDeploy-button",
+                  "docs/deploy/dcdeploy-button",
                   "docs/deploy/redeploy",
                   "docs/deploy/rebuild-deploy",
                   "docs/deploy/service-management",
@@ -106,17 +106,17 @@
       {
         "tab": "Changelogs",
         "icon": "clock-rotate-left",
-        "href": "https://DCDeploy.com/blog"
+        "href": "https://dcdeploy.com/blog"
       },
       {
         "tab": "Blog",
         "icon": "newspaper",
-        "href": "https://DCDeploy.com/blog"
+        "href": "https://dcdeploy.com/blog"
       },
       {
         "tab": "Pricing",
         "icon": "landmark",
-        "href": "https://DCDeploy.com/pricing"
+        "href": "https://dcdeploy.com/pricing"
       }
     ]
   },
@@ -128,19 +128,19 @@
     "links": [
       {
         "label": "Status",
-        "href": "https://DCDeploy.instatus.com"
+        "href": "https://dcdeploy.instatus.com"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dash.DCDeploy.com"
+      "href": "https://dash.dcdeploy.com"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/DCDeploy",
-      "linkedin": "https://www.linkedin.com/company/DCDeploy"
+      "x": "https://x.com/dcdeploy",
+      "linkedin": "https://www.linkedin.com/company/dcdeploy"
     }
   }
 }
