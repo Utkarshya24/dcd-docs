@@ -3,7 +3,7 @@ title: Domains
 description: Configure default `.cloud` subdomains or connect custom domains for your applications.
 ---
 
-Each application deployed on dcdeploy gets a **default `.cloud` subdomain**.  
+Each application deployed on DCDeploy gets a **default `.cloud` subdomain**.  
 You can also connect your own **custom domains** for production-grade deployments.
 
 ---
@@ -11,7 +11,7 @@ You can also connect your own **custom domains** for production-grade deployment
 ## Default `.cloud` Domains
 - Automatically generated when you deploy.  
 - Useful for quick testing or preview environments.  
-- Example: `myapp.dcdeploy.cloud`.
+- Example: `myapp.DCDeploy.cloud`.
 
 ---
 
@@ -23,9 +23,9 @@ You can bind your own domains for branding and production use.
 2. Click on view **Quick Action** button of the service you want to add custom-domain
 3. In workload-modal navigate to settings-Tab
 4. Add your custom domain (e.g., `app.example.com`).  
-5. Update DNS records to point to dcdeploy’s edge network:
+5. Update DNS records to point to DCDeploy’s edge network:
    ```txt
-   CNAME  app.example.com → myapp.dcdeploy.cloud
+   CNAME  app.example.com → myapp.DCDeploy.cloud
 6. Wait for DNS propagation.
 SSL certificates are provisioned automatically.
 

@@ -1,12 +1,12 @@
 ---
 title: Persistent Volumes
-description: Use persistent volumes in dcdeploy to store data that survives container restarts, deployments, and scaling operations.
+description: Use persistent volumes in DCDeploy to store data that survives container restarts, deployments, and scaling operations.
 ---
 
 
 ## Overview
-By default, workloads in dcdeploy use **ephemeral storage** — data is lost when the container restarts, redeploys, or scales.  
-To store data reliably across restarts and deployments, dcdeploy provides **Persistent Volumes**.
+By default, workloads in DCDeploy use **ephemeral storage** — data is lost when the container restarts, redeploys, or scales.  
+To store data reliably across restarts and deployments, DCDeploy provides **Persistent Volumes**.
 
 Persistent volumes are ideal for databases, file storage, or any workload that needs durable storage.
 
@@ -20,7 +20,7 @@ Persistent volumes are ideal for databases, file storage, or any workload that n
 ---
 
 ## Prerequisites
-- An active **environment** in dcdeploy.  
+- An active **environment** in DCDeploy.  
 - A workload with volume support enabled.  
 - Sufficient quota for storage (allocated at org level).  
 
@@ -29,13 +29,13 @@ Persistent volumes are ideal for databases, file storage, or any workload that n
 ## Step-by-Step Guide
 
 ### 1. Create a Service with Volume
-In the **dcdeploy dashboard**:
+In the **DCDeploy dashboard**:
 1. Go to **Deploy → Add Service**.  
 2. Under **Workload Settings**, choose **Persistent Volume**.  
 3. Set the **volume size** (e.g., 10GB).  
 4. Mount it at a path inside the container (e.g., `/data`).  
 
-Example YAML (`dcdeploy.yml`):
+Example YAML (`DCDeploy.yml`):
 
 ```yaml
 services:
@@ -67,4 +67,4 @@ psql -h localhost -U user -d mydb
 ## Troubleshooting
 - Data loss after redeploy: Ensure you’re using a persistent volume, not ephemeral storage.
 - Multiple replicas with inconsistent data: Volumes are not shared — use an external DB if consistency is required.
-- Storage full errors: Increase the volume size via dashboard or update your dcdeploy.yml.
+- Storage full errors: Increase the volume size via dashboard or update your DCDeploy.yml.

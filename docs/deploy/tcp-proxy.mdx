@@ -1,6 +1,6 @@
 ---
 title: TCP Proxy & Public URLs
-description: The **TCP Proxy** in dcdeploy allows you to expose workloads that communicate over **raw TCP protocols** (non-HTTP). This is especially useful for **databases, message brokers, and custom TCP-based services**. With **TCP Public URLs**, you can also securely connect to these services from outside dcdeploy.
+description: The **TCP Proxy** in DCDeploy allows you to expose workloads that communicate over **raw TCP protocols** (non-HTTP). This is especially useful for **databases, message brokers, and custom TCP-based services**. With **TCP Public URLs**, you can also securely connect to these services from outside DCDeploy.
 ---
 
 ---
@@ -15,7 +15,7 @@ description: The **TCP Proxy** in dcdeploy allows you to expose workloads that c
 
 ## Configuration
 
-To configure a workload with **TCP Proxy**, set the `protocol` field to `tcp` in your `dcdeploy.yml`.
+To configure a workload with **TCP Proxy**, set the `protocol` field to `tcp` in your `DCDeploy.yml`.
 
 ```yaml
 services:
@@ -51,7 +51,7 @@ services:
 ```    
 
 ### TCP Public URLs for Databases
-When you set protocol: tcp, dcdeploy provisions a public TCP endpoint so you can connect to your database or TCP service from anywhere.
+When you set protocol: tcp, DCDeploy provisions a public TCP endpoint so you can connect to your database or TCP service from anywhere.
 
 Format
 ```php
@@ -120,12 +120,12 @@ mysql-cli -h mysql.india.dcd.run -p 6379
 ### Best practices
 - Secure your database – Never leave databases open without authentication. Always set strong passwords.
 - Restrict access – Use firewall rules or allow-list IPs if possible.
-- Prefer private networking – For production workloads, use dcdeploy’s private VPC or service-to-service networking instead of exposing databases publicly.
-- Use secrets to store credentials rather than hardcoding them in your dcdeploy.yml.
+- Prefer private networking – For production workloads, use DCDeploy’s private VPC or service-to-service networking instead of exposing databases publicly.
+- Use secrets to store credentials rather than hardcoding them in your DCDeploy.yml.
 
 --- 
 
 ## Learn more
-- [DCDeploy YAML](./dcdeploy-yml)  
+- [DCDeploy YAML](./DCDeploy-yml)  
 - [Environment Variables](./environment-variables)  
 - [Workload Types](./workload-types) 

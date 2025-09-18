@@ -1,20 +1,20 @@
 ---
 title: Rebuild & Deploy
-description: The **Rebuild & Deploy** feature in dcdeploy forces a fresh build of your service and then redeploys it. This is different from a normal **Redeploy**, which may reuse the latest built image. With **Rebuild & Deploy**, the entire Docker image is rebuilt from scratch and then rolled out.
+description: The **Rebuild & Deploy** feature in DCDeploy forces a fresh build of your service and then redeploys it. This is different from a normal **Redeploy**, which may reuse the latest built image. With **Rebuild & Deploy**, the entire Docker image is rebuilt from scratch and then rolled out.
 ---
 
 ## When to use Rebuild & Deploy
 
 - **Dockerfile changes** – When you’ve updated the `Dockerfile` or build context.  
 -  **Dependencies update** – If you changed `package.json`, `requirements.txt`, or other dependency files.  
--  **Build configuration changes** – Updating `context`, `dockerfilePath`, or `autoBuild` in `dcdeploy.yml`.  
+-  **Build configuration changes** – Updating `context`, `dockerfilePath`, or `autoBuild` in `DCDeploy.yml`.  
 -  **Corrupted image fixes** – Forcing a clean rebuild ensures the latest state is deployed.  
 
 
 ## How Rebuild & Deploy Works
 
 1. **Fresh Build**  
-   - dcdeploy ignores cached layers.  
+   - DCDeploy ignores cached layers.  
    - A new Docker image is built from your repository or build context.  
 
 2. **Deploy Rollout**  
@@ -24,7 +24,7 @@ description: The **Rebuild & Deploy** feature in dcdeploy forces a fresh build o
 
 ## Rebuild & Deploy via Dashboard
 
-1. Open the **dcdeploy dashboard**.  
+1. Open the **DCDeploy dashboard**.  
 2. Navigate to your service.  
 3. Click **Rebuild & Deploy**.  
 4. Confirm the rebuild trigger.  
@@ -48,7 +48,7 @@ This will trigger a fresh build and then deploy the updated image for my-app.
 
 ### Auto Rebuild on Commit
 
-If you set `autoBuild:` true in your dcdeploy.yml, dcdeploy automatically triggers a Rebuild & Deploy whenever you push new commits to the specified branch.
+If you set `autoBuild:` true in your DCDeploy.yml, DCDeploy automatically triggers a Rebuild & Deploy whenever you push new commits to the specified branch.
 
 Example:
 
@@ -88,6 +88,6 @@ By using Rebuild & Deploy, you ensure your service always runs on the freshest p
 
 
 ## Learn more
-- [DCDeploy YAML](./dcdeploy-yml)  
+- [DCDeploy YAML](./DCDeploy-yml)  
 - [Environment Variables](./environment-variables)  
 - [Workload Types](./workload-types) 

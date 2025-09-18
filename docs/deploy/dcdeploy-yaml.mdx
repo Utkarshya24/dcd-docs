@@ -1,10 +1,10 @@
 ---
 title: DCDeploy YAML
-description: Every deployment in DCDeploy is defined using a **`dcdeploy.yaml`** file. This manifest describes your workloads, how to build them, scaling limits, ports, regions, and environment configuration. Below is a breakdown of the structure with an example.
+description: Every deployment in DCDeploy is defined using a **`DCDeploy.yaml`** file. This manifest describes your workloads, how to build them, scaling limits, ports, regions, and environment configuration. Below is a breakdown of the structure with an example.
 ---
 
 ---
-## Example: `dcdeploy.yaml`
+## Example: `DCDeploy.yaml`
 
 ```yaml
 services:
@@ -17,7 +17,7 @@ services:
       dockerfilePath: ./Dockerfile
       private: true
       autoBuild: true
-      repo: dcdeploy-labs/ecom-api
+      repo: DCDeploy-labs/ecom-api
       ref: main
       refType: branch
       commitHash: 6970cad1cc13f5f542fcb3b4714695d6f69330b8

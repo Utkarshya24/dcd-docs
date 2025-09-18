@@ -1,9 +1,9 @@
 ---
 title: Private Services and Databases using Internal Links
-description: Connect services and databases securely inside dcdeploy using internal DNS-based links, without exposing them to the public internet.
+description: Connect services and databases securely inside DCDeploy using internal DNS-based links, without exposing them to the public internet.
 ---
 
-dcdeploy allows you to connect workloads and databases privately within an **internal network**.  
+DCDeploy allows you to connect workloads and databases privately within an **internal network**.  
 Instead of exposing your service publicly with a domain or TCP proxy, you can use **internal links** that resolve via private DNS inside your organization and environments.
 
 This ensures:
@@ -15,7 +15,7 @@ This ensures:
 
 ## Overview
 
-- Every service in dcdeploy can be given an **internal hostname**.  
+- Every service in DCDeploy can be given an **internal hostname**.  
 - Internal DNS works automatically across services inside the **same environment**.  
 - Supported for **applications, APIs, and databases**.  
 - Works across **environments** if private networking is enabled.  
@@ -69,7 +69,7 @@ No public domains are required; traffic stays internal.
 
 - Use internal links by default for all service-to-service communication.
 - Only enable public domains / TCP proxies when external access is required.
-- Keep secrets (DB URLs, API keys) in dcdeploy secrets instead of hardcoding.
+- Keep secrets (DB URLs, API keys) in DCDeploy secrets instead of hardcoding.
 - Test connectivity with:
 
 ```bash

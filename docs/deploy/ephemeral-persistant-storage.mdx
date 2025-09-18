@@ -1,11 +1,11 @@
 ---
 title: Ephemeral & Persistent Storage
-description: Understand the difference between ephemeral and persistent storage in dcdeploy and how to use each for your services effectively.
+description: Understand the difference between ephemeral and persistent storage in DCDeploy and how to use each for your services effectively.
 ---
 
 ## Overview
 
-dcdeploy supports both **ephemeral** and **persistent storage**. Choosing the right type depends on whether your service data needs to survive container restarts or deployments.  
+DCDeploy supports both **ephemeral** and **persistent storage**. Choosing the right type depends on whether your service data needs to survive container restarts or deployments.  
 
 - **Ephemeral Storage:** Temporary storage tied to the container lifecycle.  
 - **Persistent Storage:** Durable storage that survives container restarts and redeployments.  
@@ -68,6 +68,6 @@ dcd volume attach <service-name> <volume-name>:/path/in/container
 - Avoid storing critical data on ephemeral storage.
 
 ## Learn more
-- [DCDeploy YAML](./dcdeploy-yml)  
+- [DCDeploy YAML](./DCDeploy-yml)  
 - [Environment Variables](./environment-variables)  
 - [Workload Types](./workload-types) 

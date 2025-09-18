@@ -1,19 +1,19 @@
 ---
 title: Private Network
-description: Understand how dcdeploy provides private networking across environments and namespaces for secure service-to-service communication.
+description: Understand how DCDeploy provides private networking across environments and namespaces for secure service-to-service communication.
 ---
 
-dcdeploy provides a **built-in private network** for all workloads.  
+DCDeploy provides a **built-in private network** for all workloads.  
 This allows services to securely communicate with each other **inside the same namespace or environment** without exposing them to the public internet.
 
 ---
 
 ## Overview
 
-- Every **environment (env)** in dcdeploy has its own **isolated private network**.  
+- Every **environment (env)** in DCDeploy has its own **isolated private network**.  
 - Services inside the same environment can reach each other using **internal DNS names**.  
 - Traffic inside the private network:
-  - Never leaves dcdeploy’s infrastructure.  
+  - Never leaves DCDeploy’s infrastructure.  
   - Is protected with **encryption-in-transit**.  
   - Avoids public exposure unless explicitly configured.  
 

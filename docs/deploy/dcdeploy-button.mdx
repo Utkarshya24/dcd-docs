@@ -1,6 +1,6 @@
 ---
 title: DCDeploy Button
-description: The **DCDeploy Button** allows you to share ready-to-deploy projects with a single click. It’s designed for **open-source maintainers, educators, and teams** who want others to quickly launch a project on **dcdeploy** without manual setup.
+description: The **DCDeploy Button** allows you to share ready-to-deploy projects with a single click. It’s designed for **open-source maintainers, educators, and teams** who want others to quickly launch a project on **DCDeploy** without manual setup.
 ---
 
 ---
@@ -8,10 +8,10 @@ description: The **DCDeploy Button** allows you to share ready-to-deploy project
 ## How it works
 
 - You add a **DCDeploy Button** to your project’s README or docs.  
-- The button links to dcdeploy with your **repository URL** pre-filled.  
-- When users click it, dcdeploy automatically:
+- The button links to DCDeploy with your **repository URL** pre-filled.  
+- When users click it, DCDeploy automatically:
   - Forks/clones the repo  
-  - Reads the `dcdeploy.yml` (deployment config)  
+  - Reads the `DCDeploy.yml` (deployment config)  
   - Launches the services in the cloud  
 
 ---
@@ -21,12 +21,12 @@ description: The **DCDeploy Button** allows you to share ready-to-deploy project
 Add this to your **GitHub README.md**:
 
 ```markdown
-[![Deploy with DCDeploy](https://dcdeploy.com/button.svg)](https://dcdeploy.com/deploy?repo=https://github.com/username/project)
+[![Deploy with DCDeploy](https://DCDeploy.com/button.svg)](https://DCDeploy.com/deploy?repo=https://github.com/username/project)
 ```
 This will render a button:
 
 ### Example: Node.js Project
-If your repository has this dcdeploy.yml:
+If your repository has this DCDeploy.yml:
 
 ```yaml
 services:
@@ -52,7 +52,7 @@ Then anyone clicking your button will get a fully deployed Node.js app with scal
 - One-Click Cloud – No manual config, works straight from GitHub.
 
 ### Best Practices
-- Always include a dcdeploy.yml in your repo.
+- Always include a DCDeploy.yml in your repo.
 - Use environment variables for secrets instead of hardcoding.
 - Provide a README section explaining how the button works.
 - Test your project by clicking your own button before sharing.
@@ -62,6 +62,6 @@ By adding the DCDeploy Button to your repositories, you make it effortless for a
 --- 
 
 ## Learn more
-- [DCDeploy YAML](./dcdeploy-yml)  
+- [DCDeploy YAML](./DCDeploy-yml)  
 - [Environment Variables](./environment-variables)  
 - [Workload Types](./workload-types) 

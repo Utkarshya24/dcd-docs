@@ -1,6 +1,6 @@
 ---
 title: Health Checks
-description: Health checks in dcdeploy ensure that your workloads are **running correctly** and can handle traffic reliably. By defining health checks, you can detect and recover from failures automatically.
+description: Health checks in DCDeploy ensure that your workloads are **running correctly** and can handle traffic reliably. By defining health checks, you can detect and recover from failures automatically.
 ---
 
 ---
@@ -9,7 +9,7 @@ description: Health checks in dcdeploy ensure that your workloads are **running 
 
 ### 1. Liveness Probe
 - Ensures the container is still running.  
-- If the liveness check fails, dcdeploy automatically **restarts the container**.  
+- If the liveness check fails, DCDeploy automatically **restarts the container**.  
 - Prevents workloads from staying stuck in an unhealthy state.  
 
 ```yaml
@@ -22,7 +22,7 @@ health:
 ```
 ### 2. Readiness Probe
 - Ensures the workload is ready to accept traffic.
-- If the readiness check fails, dcdeploy temporarily removes the instance from the load balancer.
+- If the readiness check fails, DCDeploy temporarily removes the instance from the load balancer.
 - Useful for apps that need some startup time before serving requests.
 
 ```yaml
@@ -45,11 +45,11 @@ health:
 - Ensure your readiness check only passes after dependencies (DB, cache, APIs) are ready.
 - Keep health checks lightweight to avoid adding load on your service.
 
-By setting up Health Checks, you ensure that dcdeploy maintains reliable, self-healing workloads that can scale confidently under traffic.
+By setting up Health Checks, you ensure that DCDeploy maintains reliable, self-healing workloads that can scale confidently under traffic.
 
 ---
 
 ## Learn more
-- [DCDeploy YAML](./dcdeploy-yml)  
+- [DCDeploy YAML](./DCDeploy-yml)  
 - [Environment Variables](./environment-variables)  
 - [Workload Types](./workload-types)  

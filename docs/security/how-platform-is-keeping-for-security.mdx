@@ -1,17 +1,17 @@
 ---
 title: Platform Security
-description: How dcdeploy ensures workload and data security using Cilium, Kata Containers, encryption at rest, secrets management, and isolation.
+description: How DCDeploy ensures workload and data security using Cilium, Kata Containers, encryption at rest, secrets management, and isolation.
 ---
 
-dcdeploy is designed with **security as a core principle**, ensuring that applications and data are protected at every layer.  
-From the **network plane** to the **container runtime**, dcdeploy applies modern security practices for safe multi-tenant operations.
+DCDeploy is designed with **security as a core principle**, ensuring that applications and data are protected at every layer.  
+From the **network plane** to the **container runtime**, DCDeploy applies modern security practices for safe multi-tenant operations.
 
 ---
 
 ## Security Layers
 
 ### 1. Network Security with Cilium
-- dcdeploy uses **Cilium (eBPF-based networking)** for workload communication.  
+- DCDeploy uses **Cilium (eBPF-based networking)** for workload communication.  
 - Provides **identity-aware network policies** instead of relying only on IPs.  
 - Enforces **zero-trust networking** between services and environments.  
 - Prevents lateral movement by restricting unauthorized connections.  
@@ -49,7 +49,7 @@ spec:
 - Never exposed in build logs, environment dumps, or plaintext configs.
 - Access is scoped to specific environments and services.
 
-Example in dcdeploy.yml:
+Example in DCDeploy.yml:
 
 ```yaml
 services:

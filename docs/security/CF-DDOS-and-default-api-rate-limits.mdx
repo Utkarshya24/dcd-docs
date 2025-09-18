@@ -1,16 +1,16 @@
 ---
 title: DDoS Protection & API Rate Limits
-description: How dcdeploy protects workloads with Cloudflare DDoS mitigation and enforced API rate limiting.
+description: How DCDeploy protects workloads with Cloudflare DDoS mitigation and enforced API rate limiting.
 ---
 
-dcdeploy ensures that your applications stay online and secure under heavy traffic and potential attacks.  
+DCDeploy ensures that your applications stay online and secure under heavy traffic and potential attacks.  
 This is achieved through **Cloudflare’s global edge network** for DDoS mitigation and **default API rate limiting** to prevent abuse.
 
 ---
 
 ## Cloudflare DDoS Protection
 
-- All incoming traffic to dcdeploy workloads is routed through **Cloudflare’s edge network**.  
+- All incoming traffic to DCDeploy workloads is routed through **Cloudflare’s edge network**.  
 - Protects against:
   - **Layer 3/4 attacks** (volumetric floods, SYN floods, UDP floods).  
   - **Layer 7 attacks** (HTTP floods, slowloris).  
@@ -26,7 +26,7 @@ This is achieved through **Cloudflare’s global edge network** for DDoS mitigat
 
 ## Default API Rate Limits
 
-To protect workloads from abuse and accidental overload, dcdeploy enforces **default request-per-second (RPS) limits**.
+To protect workloads from abuse and accidental overload, DCDeploy enforces **default request-per-second (RPS) limits**.
 
 ### Per-Service Defaults
 - **Burst traffic allowed** (short spikes are absorbed).  
