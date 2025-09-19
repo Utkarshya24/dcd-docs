@@ -71,7 +71,7 @@
                 "pages": [
                   "docs/Observability/logs",
                   "docs/Observability/metrics",
-                  "docs/Observability/Alerts"
+                  "docs/Observability/alerts"
                 ]
               },
               {
@@ -106,7 +106,7 @@
       {
         "tab": "Changelogs",
         "icon": "clock-rotate-left",
-        "href": "https://dcdeploy.com/blog"
+        "pages": ["changelogs"]
       },
       {
         "tab": "Blog",
@@ -136,6 +136,10 @@
       "label": "Dashboard",
       "href": "https://dash.dcdeploy.com"
     }
+  },
+  "banner": {
+    "content": "🚀 Version main-08-09 is now live! See our [changelog](/changelogs) for details.",
+    "dismissible": true 
   },
   "footer": {
     "socials": {

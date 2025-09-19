@@ -1,0 +1,99 @@
+---
+title: 'Alerts'
+description: 'Get notified about important events and issues related to your services, databases, users, and subscriptions on DCDeploy.'
+---
+
+DCDeploy provides a powerful alerting system to keep you informed about critical events, resource usage, and system changes.  
+Alerts help you **track service health, deployment issues, user activities, billing events, and feature updates**—all in real-time.
+
+---
+
+## Types of Alerts
+
+Below are the categories of alerts you may receive:
+
+### Success Alerts
+- **Service Build Completed Successfully** → Service built and ready for deployment.  
+- **Service Deployment Completed Successfully** → Service deployed and running.  
+- **Database Created Successfully** → Database provisioned and available.  
+- **Backup Completed** → Backup completed successfully.  
+
+---
+
+### Failure Alerts
+- **Service Build Failed** → Build error occurred, check logs.  
+- **Service Deployment Failed** → Deployment error occurred.  
+- **Database Creation Failed** → Database provisioning failed.  
+- **Backup Failed** → Backup did not complete successfully.  
+- **Service Crashed** → Service stopped unexpectedly.  
+
+---
+
+### Warnings
+- **Container Health Issue** → Container is unhealthy, check logs.  
+- **Subscription Expiry Warning** → Subscription is about to expire, renew to avoid downtime.  
+- **High Resource Usage** → Usage thresholds exceeded. Examples:  
+  - High CPU Usage  
+  - High Memory Usage  
+  - High Disk Usage (Persistent / Ephemeral)  
+  - High Network Input / Output Usage  
+
+---
+
+### Informational
+- **User Role Changed** → A user’s role was updated in your environment.  
+- **New User Joined** → A new user joined your organization.  
+- **New Feature Released** → A feature has been rolled out to your environment.  
+
+---
+
+### Billing & Subscription
+- **Payment Failed** → Payment for your subscription failed.  
+- **Subscription Expiry Warning** → Your subscription is nearing expiry.  
+
+---
+
+## Usage Alerts
+
+DCDeploy generates **open** and **close** usage alerts automatically when resource consumption crosses defined thresholds:
+
+- **Open Alert** → Raised when usage (CPU, Memory, Disk, or Network) exceeds safe limits.  
+- **Close Alert** → Triggered when usage returns back to normal.  
+
+Example:  
+- **High CPU Usage Open Alert** → Service exceeded CPU threshold.  
+- **High CPU Usage Alert Closed** → CPU usage returned to safe levels.  
+
+---
+
+## Activity Log Mapping
+
+Some alerts are mapped directly to activity logs for traceability:
+
+| Activity Log Key            | Alert Type                     |
+|-----------------------------|--------------------------------|
+| `service-deploy-success`   | Service Deployment Success      |
+| `service-deploy-failed`    | Service Deployment Failed       |
+| `service-build-success`    | Service Build Success           |
+| `service-build-failed`     | Service Build Failed            |
+
+---
+
+## How Alerts Help
+
+- **Faster Debugging** → Alerts pinpoint the issue instantly.  
+- **Proactive Monitoring** → Stay ahead of service failures and resource overuse.  
+- **Security & Compliance** → Track role changes and user activity.  
+- **Smooth Operations** → Never miss subscription or billing updates.  
+
+---
+
+## Delivery Channels
+
+Alerts can be viewed in:  
+- **DCDeploy Dashboard → Alerts Tab**  
+- **Email Notifications (if enabled)**  
+- **Slack / Discord Integrations (coming soon)**  
+
+---
+
