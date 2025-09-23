@@ -1,0 +1,155 @@
+---
+title: "Deploy Spring Boot on DCDeploy"
+description: "Guide for deploying Spring Boot applications on DCDeploy using Docker or build-from-code"
+---
+
+# Deploy Spring Boot on DCDeploy
+
+This guide helps you deploy a Spring Boot application on DCDeploy—from setup, build config, to monitoring.
+
+---
+
+## Quick Start: Hello World
+
+You can deploy a minimal Spring Boot app to test the flow.
+
+1. Create a new Spring Boot project (using Spring Initializr or CLI):
+
+   ```bash
+   curl https://start.spring.io/starter.zip \
+     -d dependencies=web \
+     -d language=java \
+     -d name=hello-dcdeploy \
+     -o hello-dcdeploy.zip
+   unzip hello-dcdeploy.zip
+   cd hello-dcdeploy
+   ```
+2. Modify src/main/java/com/example/demo/DemoApplication.java:
+
+```java
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@SpringBootApplication
+public class DemoApplication {
+  public static void main(String[] args) {
+    SpringApplication.run(DemoApplication.class, args);
+  }
+}
+
+@RestController
+class HelloController {
+  @GetMapping("/")
+  public String hello() {
+    return "Hello DCDeploy from Spring Boot!";
+  }
+}
+```
+3. Add a Dockerfile (if using Docker for deployment) or prepare the build to be invoked by DCDeploy.
+4. Push the code to a Git repository.
+5. Deploy on DCDeploy using the steps in this guide.
+
+## Overview
+Spring Boot is a Java framework for building production-grade standalone applications with embedded servers (Tomcat, Jetty, etc.).
+On DCDeploy, you can deploy Spring Boot apps via:
+- Build from Code (auto-detecting Java/Maven/Gradle projects)
+- Dockerfile, for full control (custom JVM options, multi-stage builds)
+
+## Prerequisites
+- Java 17+ or appropriate version for your app.
+- Build tool: Maven or Gradle in your repo.
+- pom.xml or build.gradle describing dependencies.
+- A Git repository.
+- If using Docker, include a Dockerfile.
+- Application should read port from environment (e.g. ${PORT} or fallback) and listen on 0.0.0.0.
+
+## Step-by-Step Guide
+1. Prepare Your Spring Boot App
+- Ensure your main class (with @SpringBootApplication) is correctly set.
+- Update application.properties or application.yml to use environment variables:
+
+```properties
+server.port=${PORT:8080}
+spring.datasource.url=${DATABASE_URL}
+spring.datasource.username=${DB_USER}
+spring.datasource.password=${DB_PASS}
+```
+Do not hardcode secrets in code. Use environment variables or Secrets management.
+
+2. Add Dockerfile (optional but often preferred)
+Example Dockerfile with multi-stage build:
+
+```dockerfile
+# Build stage
+FROM maven:3.9.0-openjdk-17-slim AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Runtime stage
+FROM openjdk:17-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar ./app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","app.jar"]
+```
+3. Push Code to Git
+- Initialize Git if needed, commit all files.
+- If using .gitignore, exclude target/, .mvn/, .settings, etc.
+
+4. Deploy on DCDeploy
+- In DCDeploy dashboard → go to your environment → Deploy tab.
+- Add a new service → choose Build from Code or Docker Registry.
+- Provide repo + branch.
+- Set port to 8080 (or configured port), ensure the app listens on 0.0.0.0.
+- Choose protocol (HTTP/HTTPS), region(s).
+- Provide environment variables:
+- DATABASE_URL, DB_USER, DB_PASS etc.
+- SPRING_PROFILES_ACTIVE if you use profiles.
+- Choose machine type (CPU/RAM) based on expected load.
+- Set scaling parameters (minScale / maxScale).
+- Deploy and monitor build & deployment logs.
+
+## Example Service Configuration
+```yaml
+services:
+  spring-boot-app:
+    build:
+      context: ./
+      dockerfilePath: ./Dockerfile
+      repo: your-username/hello-spring-boot
+      ref: main
+      refType: branch
+      autoBuild: true
+    ports:
+      - 8080
+    protocol: https
+    minScale: 1
+    maxScale: 2
+    environment:
+      DATABASE_URL: "jdbc:postgresql://db.internal:5432/mydb"
+      DB_USER: "username"
+      DB_PASS: "password"
+      SPRING_PROFILES_ACTIVE: "prod"
+      ```
+## Best Practices
+- Use multi-stage Docker builds to reduce image size.
+- Set server.port dynamically via ${PORT} environment variable.
+- Use internal networking for databases and other services inside DCDeploy.
+- Use health checks (for example /actuator/health) to allow DCDeploy to monitor readiness.
+- Configure logging and monitoring.
+- Use secrets instead of hard-coded credentials.
+
+## Troubleshooting
+| Problem                                | Likely Cause                                         | Solution                                                                |
+| -------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------------------- |
+| App not reachable                      | Application not listening on `0.0.0.0` or wrong port | Verify `server.port` property and listening address.                    |
+| Build failed (Maven or Gradle errors)  | Missing dependencies, repository issues              | Ensure your build file is correct, test build locally.                  |
+| Environment variables missing or wrong | Variables not set in DCDeploy service/profile        | Set up env vars in service manifest or dashboard.                       |
+| Long cold start or high memory usage   | Large jar size, many dependencies                    | Use slim base image, strip dependencies, optimize build.                |
+| Database connection errors             | Wrong JDBC URL, DB not reachable                     | Check `DATABASE_URL`, internal network, DNS, and private network usage. |

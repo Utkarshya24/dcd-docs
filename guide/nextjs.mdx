@@ -1,0 +1,165 @@
+---
+title: "Deploy Next.js on DCDeploy"
+description: "Guide for deploying Next.js applications (App Router or Pages Router) on DCDeploy"
+---
+
+This guide walks you through deploying a Next.js application on DCDeploy, including setup, build configuration, routing, and best practices.
+
+---
+## Quick Start: Hello World
+
+You can try deploying a minimal Next.js app to test the workflow.
+
+1. Create a new Next.js app:
+   ```bash
+   npx create-next-app hello-dcdeploy
+   cd hello-dcdeploy
+   ```
+2. Replace the default page (app/page.tsx for App Router or pages/index.js for Pages Router) with:
+  ```jsx
+  export default function Home() {
+  return (
+    <div style={{ 
+      display: "flex", 
+      alignItems: "center", 
+      justifyContent: "center", 
+      height: "100vh", 
+      fontFamily: "sans-serif" 
+    }}>
+      <h1>Hello DCDeploy 🚀</h1>
+    </div>
+  )
+}
+```
+
+3. Start locally to verify:
+```bash
+npm run dev
+```
+4. Commit and push to GitHub/Git provider.
+5. Deploy on DCDeploy using the steps in the guide below.
+
+
+## Overview
+
+Next.js is a React framework that supports both static and server-rendered applications.  
+On DCDeploy, you can deploy Next.js using:
+
+- **Node.js server mode** (`next start`) for server-side rendering (SSR), API routes, etc.  
+- **Docker-based deployment** for custom control.  
+- **Static export** for static sites (no server-side features).  
+
+---
+
+## When to Use Each Mode
+
+| Mode               | Use Cases                                                                 | Limitations                                               |
+|---------------------|--------------------------------------------------------------------------|-----------------------------------------------------------|
+| **Node.js Server**  | Full Next.js features: SSR, API Routes, Middleware, Image Optimization.  | Requires more resources; cold-start delay can be higher.  |
+| **Docker Deployment** | Custom setup, dependencies, versions.                                   | More complex configuration; build times may increase.     |
+| **Static Export**   | Blogs, marketing sites, documentation with mostly static content.         | No SSR or API routes; dynamic features not supported.      |
+
+---
+
+## Prerequisites
+
+- Next.js project with either App Router or Pages Router.  
+- `package.json` scripts:  
+  ```json
+  {
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start"
+    }
+  }
+- If using Docker, a Dockerfile in your project root.
+- GitHub (or other Git) repository to push your project.
+
+## Step-by-Step Guide
+1. Prepare Your Next.js App
+  - Choose router type (App Router or Pages Router).
+  - Ensure dependencies are in package.json.
+  - If using image optimization (next/image), ensure relevant libs like sharp may be installed.
+2. Add Dockerfile (optional but recommended for control)
+
+Example `Dockerfile:`
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "run", "start"]
+```
+If using static export (no server), you may build and serve static with a lightweight server or from static hosting.
+
+3. Push Code to Git
+  - Initialize Git, commit all files, push to your git provider (GitHub, etc.).
+  - Include .dockerignore to speed up builds when using Docker.
+4. Deploy on DCDeploy
+  - In DCDeploy dashboard → Deploy tab in your target environment.
+  - Create a new service → select Docker Registry / Build from Code.
+  - Provide image or repo + branch.
+  - Set port to 3000 (common for Next.js) and ensure app listens on 0.0.0.0.
+  - Select protocol (http / https) and region(s).
+  - Choose machine type (CPU, RAM) especially if SSR or many API routes.
+  - Configure environment variables (NEXT_PUBLIC_*, database URLs, etc.).
+  - Set minScale / maxScale. If your app is dormant at times, you can allow scale‐to‐zero if enabled.
+  - Deploy and monitor build + deploy logs.
+
+Examples
+Node.js Server Example
+```yaml
+services:
+  next-app:
+    build:
+      context: ./
+      dockerfilePath: ./Dockerfile
+      repo: your-username/nextjs-app
+      ref: main
+      refType: branch
+      autoBuild: true
+    ports:
+      - 3000
+    protocol: https
+    minScale: 1
+    maxScale: 2
+    environment:
+      NEXT_PUBLIC_API_URL: https://api.example.com
+      ```
+
+### Static Export Example
+If using static export:
+- Run next export or configure Next.js to export static.
+- Serve from static hosting or minimal server.
+- Dockerfile might look like:
+
+```dockerfile
+FROM node:18-alpine as builder
+
+WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build
+RUN npm run export
+
+FROM nginx:alpine
+COPY --from=builder /app/out /usr/share/nginx/html
+```
+## Best Practices
+- Use internal networking for connecting your Next.js app to databases / APIs within DCDeploy instead of making those publicly exposed.
+- Enable SSL / custom domain for production.
+- Monitor resource usage (CPU, memory), especially if using SSR or Server Components.
+- Use caching / ISR (Incremental Static Regeneration) wisely for performance.
+- Optimize image sizes and bundle sizes.
+
+## Troubleshooting
+| Problem                            | Likely Cause                                   | Solution                                                  |
+| ---------------------------------- | ---------------------------------------------- | --------------------------------------------------------- |
+| Page showing blank or can't access | App not listening on `0.0.0.0` or wrong port   | Verify `listen("0.0.0.0", port)` and port match manifest. |
+| Image optimization failing         | Missing `sharp` or unsupported library         | Install needed libs, ensure docker image includes them.   |
+| Build timeout / too slow           | Large dependencies, cached layers not used     | Use slim base image, optimize dependencies, use caching.  |
+| SSR / API route error on deploy    | Environment variables missing or misconfigured | Check env var settings, check logs for stack trace.       |

@@ -40,7 +40,8 @@
                   "docs/deploy/service-management",
                   "docs/deploy/ephemeral-persistant-storage",
                   "docs/deploy/multiple-services",
-                  "docs/deploy/workload-details"
+                  "docs/deploy/workload-details",
+                  "docs/deploy/revision-events"
                 ]
               },
               {
@@ -102,6 +103,19 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "Guide",
+        "icon": "book",
+        "pages": [
+          "guide/language-framework",
+          "guide/nextjs",
+          "guide/nest",
+          "guide/expressjs",
+          "guide/django",
+          "guide/spring-boot",
+          "guide/go(Gin, Echo, Fiber)"
+      ]
       },
       {
         "tab": "Changelogs",

@@ -1,0 +1,127 @@
+---
+title: "Deploy Express.js on DCDeploy"
+description: "Guide for deploying Express.js applications on DCDeploy"
+---
+
+This guide walks you through deploying an Express.js application on DCDeploy, including setup, build configuration, and best practices.
+
+---
+
+## Quick Start: Hello World
+
+You can try deploying a minimal Express.js app to test the workflow.
+
+1. Create a new project:
+   ```bash
+   mkdir hello-dcdeploy
+   cd hello-dcdeploy
+   npm init -y
+   npm install express
+   ```
+2. Create an index.js file with the following code:
+```js
+const express = require("express");
+const app = express();
+
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.send("Hello DCDeploy 🚀 from Express.js!");
+});
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
+});
+```
+3. Update package.json scripts:
+
+```json
+{
+  "scripts": {
+    "start": "node index.js"
+  }
+}
+```
+4. Run locally:
+
+```bash
+npm start
+```
+5. Commit and push to GitHub/Git provider.
+6. Deploy on DCDeploy using the steps in the guide below.
+
+## Overview
+Express.js is a lightweight Node.js web framework often used for REST APIs and backend services.
+On DCDeploy, you can deploy Express.js apps using:
+- Build from Code (auto-detected Node.js project) – easiest method.
+- Custom Dockerfile – for advanced control over runtime and dependencies.
+
+## Prerequisites
+- Express.js project (index.js or app.js entrypoint).
+- package.json with a valid start script.
+- GitHub (or Git) repository to push your project.
+- (Optional) Dockerfile if you want a custom build.
+
+## Step-by-Step Guide
+1. Prepare Your Express App
+- Ensure package.json has a start script that runs your server.
+- App must listen on 0.0.0.0 and use the PORT environment variable.
+
+2. Add Dockerfile (optional)
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+3. Push Code to Git
+- Initialize Git, commit files, and push to your Git provider.
+- Add .dockerignore if using Docker.
+
+4. Deploy on DCDeploy
+- In DCDeploy dashboard → Deploy tab of your environment.
+- Create a new service → select Build from Code or Docker Registry.
+- Provide repo + branch.
+- Set port to 3000 (or the one used in your app).
+- Configure environment variables for secrets, DB URLs, etc.
+- Choose machine type (CPU, RAM) based on traffic needs.
+- Deploy and monitor logs.
+
+## Example Service Config
+```yaml
+services:
+  express-app:
+    build:
+      context: ./
+      dockerfilePath: ./Dockerfile
+      repo: your-username/express-app
+      ref: main
+      refType: branch
+      autoBuild: true
+    ports:
+      - 3000
+    protocol: https
+    minScale: 1
+    maxScale: 2
+    environment:
+      NODE_ENV: production
+      API_KEY: your-secret-key
+```      
+
+## Best Practices
+- Use environment variables (not hardcoded secrets).
+- Use internal networking in DCDeploy to connect databases/APIs securely.
+- Add health check endpoints (e.g. /healthz).
+- Log errors clearly for debugging.
+- Scale services with minScale/maxScale depending on workload.
+
+## Troubleshooting
+| Problem                  | Likely Cause                                 | Solution                                      |
+| ------------------------ | -------------------------------------------- | --------------------------------------------- |
+| App crashes on deploy    | Wrong entrypoint or missing dependencies     | Check `start` script, install deps.           |
+| Not accessible           | App not listening on `0.0.0.0` or wrong port | Ensure `listen("0.0.0.0", process.env.PORT)`. |
+| Build timeout / too slow | Large deps or missing Docker ignore          | Optimize deps, use `.dockerignore`.           |
+| Env vars not working     | Missing DCDeploy config                      | Add env vars in dashboard.                    |

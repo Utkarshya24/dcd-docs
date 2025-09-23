@@ -1,0 +1,150 @@
+---
+title: "Deploy Django on DCDeploy"
+description: "Guide for deploying Django applications on DCDeploy using Docker or build-from-code"
+---
+
+This guide shows how to deploy a Django application on DCDeploy, covering setup, Docker configuration, environment variables, and best practices.
+
+---
+
+## Quick Start: Hello World
+
+To test the flow, you can deploy a minimal Django app:
+
+1. Create a Django project locally:
+
+   ```bash
+   mkdir hello_dcdeploy
+   cd hello_dcdeploy
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install django
+   django-admin startproject hellosite .
+   ```
+2. Edit hellosite/settings.py to allow all hosts and read port from environment:
+
+```python
+# settings.py
+import os
+
+ALLOWED_HOSTS = ["*"]
+PORT = os.environ.get("PORT", "8000")
+```
+3. Optionally add a simple view (if needed) in hellosite/urls.py:
+
+```python
+from django.http import HttpResponse
+from django.urls import path
+
+def home(req):
+    return HttpResponse("Hello DCDeploy from Django!")
+
+urlpatterns = [
+    path("", home),
+    path("admin/", path),
+]
+```
+4. Commit and push to your Git provider.
+
+## Overview
+Django is a high-level Python web framework that promotes rapid development and clean design.
+On DCDeploy you can deploy Django apps via:
+- Dockerfile (recommended for full control)
+- Build-from-code method (auto-detects Django app)
+Key concerns include static files, database connections, allowed hosts, and environment configuration.
+
+## Prerequisites
+- A Django project with requirements.txt including all dependencies (e.g. Django, gunicorn, psycopg2).
+- settings.py using environment variables for sensitive configs (DB credentials, secret key).
+- STATIC_ROOT configured and static file collection in build or startup.
+- Dockerfile (if using Docker) or autoBuild setup.
+- Git repository with your code.
+
+## Step-by-Step Guide
+1. Prepare Your Django App
+- Set environment variables for DJANGO_SECRET_KEY, DATABASE_URL, etc.
+- In settings, allow connections from 0.0.0.0 and the port your service will listen on.
+- Configure ALLOWED_HOSTS (for production, include your custom domain or default).
+- Set up static files:
+
+```python
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+```
+2. Add Dockerfile (recommended)
+Example Dockerfile:
+
+```dockerfile
+FROM python:3.11-slim AS builder
+
+WORKDIR /app
+COPY requirements.txt ./
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+COPY . .
+
+RUN python manage.py collectstatic --noinput
+
+FROM python:3.11-slim
+WORKDIR /app
+
+COPY --from=builder /app /app
+EXPOSE 8000
+
+CMD ["gunicorn", "hellosite.wsgi:application", "--bind", "0.0.0.0:${PORT:-8000}"]
+```
+3. Push Code to Git
+- Initialize repo, commit, push to GitHub or similar.
+- Include .dockerignore to exclude venv, __pycache__, etc.
+
+4. Deploy on DCDeploy
+- In DCDeploy dashboard → Environment → Deploy tab.
+- Add a new service → choose Build from Code or Docker Registry.
+- Provide your Git repo or Docker image.
+- Set port to 8000 and protocol (HTTP/HTTPS).
+- Select machine type based on expected traffic.
+- Provide environment variables:
+  - `DJANGO_SETTINGS_MODULE`
+  - `DJANGO_SECRET_KEY`
+  - `DATABASE_URL`
+  - Other secrets.
+- Configure static files: ensure collectstatic is run and static served.
+- Adjust scale (minScale/maxScale).
+- Deploy and monitor build & deployment, check revision events.
+Example Service Configuration
+```yaml
+services:
+  django-app:
+    build:
+      context: ./
+      dockerfilePath: ./Dockerfile
+      repo: your-username/hello_django
+      ref: main
+      refType: branch
+      autoBuild: true
+    ports:
+      - 8000
+    protocol: https
+    minScale: 1
+    maxScale: 2
+    environment:
+      DJANGO_SECRET_KEY: "{{DJANGO_SECRET_KEY}}"
+      DATABASE_URL: "postgres://user:pass@db.internal:5432/mydb"
+      DJANGO_SETTINGS_MODULE: hellosite.settings
+      ```
+## Best Practices
+- Use gunicorn (or similar WSGI) for production, not runserver.
+- Serve static files via built-in mechanisms or via external storage/CDN.
+- Keep SECRET_KEY and other secrets in environment or Secrets management.
+- Use internal networking for DB connections and other internal services.
+- Enable health checks (e.g. /healthz) to verify readiness.
+- If your app is idle, consider scale-to-zero if acceptable.
+
+## Troubleshooting
+| Problem                                   | Likely Cause                                              | Solution                                                              |
+| ----------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------------------- |
+| App not accessible                        | Server not listening on `0.0.0.0` or wrong port specified | Ensure `bind 0.0.0.0:<PORT>` in Gunicorn, match port config.          |
+| Static files not loaded                   | `collectstatic` not run, or static root misconfigured     | Confirm Dockerfile runs `collectstatic`, and STATIC\_ROOT is correct. |
+| DB connection errors                      | Wrong `DATABASE_URL`, network settings                    | Check env vars, private networking, and DNS in DCDeploy.              |
+| Environment vars not found during runtime | Missing in service config or not added via Secrets        | Add via dashboard or service manifest.                                |
+| Build fails due to missing dependencies   | Requirements missing in `requirements.txt`                | Include all needed packages and test locally.                         |

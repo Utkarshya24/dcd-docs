@@ -1,0 +1,51 @@
+---
+title: "Revision Events"
+description: "Track build and deployment progress with revision events"
+---
+
+Revision events provide real-time feedback on the status of builds and deployments.  
+These events are recorded against each revision and can be viewed on hover (as tooltips) or inside logs.  
+
+---
+
+## Build Events
+These events are triggered during the build process:
+
+- **Build failed due to internal error.**  
+- **Build failed due to excessive retries.**  
+- **Build failed due to timeout.**  
+- **Build failed due to no build started.**  
+- **Build failed due to wrong Git config.**  
+- **Build failed. Please check build logs.**  
+- **Build failed due to no commit hash.**  
+- **Build failed. Source not fetched.**  
+- **Build completed successfully.**
+
+---
+
+## Deployment Events
+These events indicate the status of deployment:
+
+- **Deployment seems stuck in progress.**  
+  _(Check configured port and logs for more details.)_  
+
+- **Deployment is successful and ready to use.**  
+
+- **Deployment timeout.**  
+  _(Check the logs for more details.)_  
+
+- **Deployment is crashing.**  
+  _(Check the logs for more details.)_  
+
+- **Deployment startup probe failed.**  
+  _(Verify configured port and logs.)_
+
+---
+
+## Event Categories
+Each revision event has:
+- **Message** → Human-readable status update.  
+- **Status** → `active`, `failed`, or `success`.  
+- **Phase** → e.g., `started`, `deployed`, `failed`.  
+
+

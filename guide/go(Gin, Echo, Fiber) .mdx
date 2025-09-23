@@ -1,0 +1,161 @@
+---
+title: "Deploy Go Frameworks (Gin, Echo, Fiber) on DCDeploy"
+description: "Guide for deploying popular Go frameworks — Gin, Echo, and Fiber — on DCDeploy"
+---
+
+This guide explains how to deploy Go applications built with **Gin**, **Echo**, or **Fiber** on DCDeploy using Docker and best practices.
+
+---
+
+## Overview
+
+DCDeploy fully supports Go-based applications.  
+The most common frameworks used in production are:
+
+- **Gin** – Fast, minimalistic, feature-rich HTTP framework.  
+- **Echo** – High performance, extensible, with built-in middleware.  
+- **Fiber** – Inspired by Express.js, very lightweight and fast.  
+
+All follow a similar deployment pattern:
+
+1. **Bind to `0.0.0.0:$PORT`** (DCDeploy dynamically sets the `PORT` env variable).  
+2. **Use multi-stage Docker builds** for small, production-ready images.  
+3. **Push to Git / Registry → Deploy in DCDeploy**.  
+
+---
+
+## Quick Start Examples
+
+### 1. Gin Example
+
+`main.go`:
+```go
+package main
+
+import (
+  "github.com/gin-gonic/gin"
+  "os"
+)
+
+func main() {
+  r := gin.Default()
+  r.GET("/", func(c *gin.Context) {
+    c.String(200, "Hello DCDeploy from Gin 🚀")
+  })
+
+  port := os.Getenv("PORT")
+  if port == "" {
+    port = "8080"
+  }
+  r.Run("0.0.0.0:" + port)
+}
+```
+2. Echo Example
+`main.go`:
+
+```go
+package main
+
+import (
+  "github.com/labstack/echo/v4"
+  "net/http"
+  "os"
+)
+
+func main() {
+  e := echo.New()
+  e.GET("/", func(c echo.Context) error {
+    return c.String(http.StatusOK, "Hello DCDeploy from Echo 🚀")
+  })
+
+  port := os.Getenv("PORT")
+  if port == "" {
+    port = "8080"
+  }
+  e.Logger.Fatal(e.Start("0.0.0.0:" + port))
+}
+```
+
+3. Fiber Example
+`main.go`:
+
+```go
+package main
+
+import (
+  "github.com/gofiber/fiber/v2"
+  "os"
+)
+
+func main() {
+  app := fiber.New()
+  app.Get("/", func(c *fiber.Ctx) error {
+    return c.SendString("Hello DCDeploy from Fiber 🚀")
+  })
+
+  port := os.Getenv("PORT")
+  if port == "" {
+    port = "8080"
+  }
+  app.Listen("0.0.0.0:" + port)
+}
+```
+## Dockerfile (for all)
+Use this Dockerfile for Gin, Echo, or Fiber apps:
+
+```dockerfile
+FROM golang:1.22-alpine AS build
+WORKDIR /app
+COPY . .
+RUN go mod tidy
+RUN go build -o app .
+
+FROM alpine:latest
+WORKDIR /app
+COPY --from=build /app/app .
+EXPOSE 8080
+CMD ["./app"]
+```
+
+## Deploy on DCDeploy
+1. Push Code
+- Initialize Git, commit, push to GitHub/Git provider.
+- Or push built image to container registry.
+
+2. Create Service
+- In DCDeploy dashboard → go to target environment → Deploy → New Service.
+- Select Build from Code or Docker Registry.
+
+3. Configure Service
+- Set port → 8080.
+- Protocol → http or https.
+- CPU/RAM machine type.
+- Add environment variables (DB_URL, API_KEY, etc).
+- Configure scaling (minScale, maxScale).
+
+4. Deploy
+- Watch build + deploy logs.
+- Once healthy, open the endpoint → "Hello DCDeploy 🚀".
+
+## Best Practices
+- Bind to 0.0.0.0 (not localhost).
+- Use environment variables for DB, secrets, keys.
+- Optimize Docker image size with multi-stage builds.
+- Enable middleware (logging, recovery, compression).
+- Monitor metrics (CPU, RAM) for high-performance Go apps.
+
+## Troubleshooting
+| Problem            | Cause                           | Solution                                 |
+| ------------------ | ------------------------------- | ---------------------------------------- |
+| App unreachable    | Bound to `localhost` only       | Use `0.0.0.0:$PORT`                      |
+| Build failed       | Missing `go.mod` / dependencies | Run `go mod tidy` before deploy          |
+| Crash after deploy | Missing env vars                | Configure env vars in DCDeploy dashboard |
+| Large Docker image | Using single-stage build        | Switch to multi-stage Docker build       |
+| Port mismatch      | Wrong exposed/listen port       | Ensure `EXPOSE 8080` and use `$PORT` env |
+
+
+## Summary
+- Gin, Echo, and Fiber apps all deploy the same way.
+- Bind to 0.0.0.0:$PORT.
+- Use Docker multi-stage builds for production.
+- Push → Deploy → Scale → Secure with DCDeploy’s edge network & private networking.

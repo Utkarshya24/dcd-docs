@@ -1,0 +1,142 @@
+---
+title: "Deploy NestJS on DCDeploy"
+description: "Guide for deploying NestJS applications on DCDeploy using Docker or build-from-code"
+---
+
+This guide walks you through deploying a **NestJS** application on DCDeploy, including setup, Docker configuration, environment variables, and recommended practices.
+
+---
+
+## Quick Start: Hello World
+
+You can deploy a minimal NestJS app to test the workflow.
+
+1. Create a new NestJS project locally:
+   ```bash
+   npm i -g @nestjs/cli
+   nest new hello-dcdeploy
+   cd hello-dcdeploy
+   ```
+2. Modify src/app.controller.ts (or similar) to return a simple message:
+
+```ts
+
+import { Controller, Get } from '@nestjs/common';
+
+@Controller()
+export class AppController {
+  @Get()
+  getHello(): string {
+    return 'Hello DCDeploy from NestJS!';
+  }
+}
+```
+3. Test locally:
+
+```bash
+npm run start
+```
+Access at http://localhost:3000.
+4. Push to GitHub or your Git provider:
+
+```bash
+git init
+git add .
+git commit -m "Initial NestJS commit"
+git branch -M main
+git remote add origin https://github.com/your-username/hello-nestjs
+git push -u origin main
+```
+Deploy on DCDeploy using steps in the guide below.
+
+## Overview
+NestJS is a progressive, extensible framework for building efficient, scalable server-side applications in Node.js. It uses TypeScript by default and supports modular architecture, dependency injection, and multiple transport layers.
+
+On DCDeploy, you can deploy NestJS applications using:
+- Build-from-code (auto-detecting Node.js projects)
+- Dockerfile — for custom control over build, runtime, and dependencies
+
+## Prerequisites
+- A NestJS project (with TypeScript)
+- package.json must have correct scripts like start, build, etc.
+- A GitHub (or Git) repo containing your project
+- If using Docker, a Dockerfile in project root
+- Knowledge of environment variables for DB credentials, etc.
+
+## Step-by-Step Guide
+1. Prepare Your NestJS App
+- Ensure the app listens on 0.0.0.0 on process.env.PORT || 3000.
+- Replace any hardcoded DB credentials / secrets with environment variables.
+
+2. (Optional) Dockerfile
+Here’s a sample `Dockerfile:`
+
+```dockerfile
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+RUN npm run build
+
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app ./
+EXPOSE 3000
+CMD ["node", "dist/main"]
+```
+3. Push Code to Git
+Commit your code, tag your branch (e.g. main).
+Ensure .dockerignore excludes node_modules, dist, etc.
+
+4. Deploy on DCDeploy
+- In DCDeploy dashboard → Navigate to the environment → Deploy tab
+- Add a new service → Choose Build from Code (or Docker if using custom image).
+- Provide repo URL, branch/ref.
+- Set port 3000, ensure listening address 0.0.0.0.
+- Choose protocol (HTTP/HTTPS), region(s).
+- Configure environment variables needed (e.g. DB_HOST, DB_USER, DB_PASS, DB_NAME).
+- Select machine type (CPU, RAM) based on expected load.
+- Set minScale/maxScale as needed.
+- Deploy and monitor logs & revision events.
+
+## Example Service Config
+```yaml
+services:
+  nestjs-app:
+    build:
+      context: ./
+      dockerfilePath: ./Dockerfile
+      repo: your-username/hello-nestjs
+      ref: main
+      refType: branch
+      autoBuild: true
+    ports:
+      - 3000
+    protocol: https
+    minScale: 1
+    maxScale: 2
+    environment:
+      NODE_ENV: production
+      DB_HOST: ${DB_HOST}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+```      
+## Best Practices
+- Use internal networking for connecting to databases or services within DCDeploy.
+- Add a health check endpoint (e.g., /healthz) for better deployment monitoring.
+- Set NODE_ENV=production for performance optimizations.
+- Keep the Docker image small (use Alpine or slim images, multi-stage builds).
+- Use logging, and avoid exposing secrets in code.
+- Use SSL / custom domain for secure access in production.
+
+## Troubleshooting
+| Problem                                       | Likely Cause                                              | Solution                                                                      |
+| --------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| App not accessible after deployment           | App isn’t listening on `0.0.0.0` or wrong port configured | Check listening address & port in both NestJS code & DCDeploy service config. |
+| Build fails due to missing TypeScript compile | Missing `build` script or dependencies                    | Ensure `npm run build` works locally; include `tsconfig`, etc.                |
+| Environment variables not set or wrong        | Variables missing in DCDeploy dashboard                   | Add required env vars accurately.                                             |
+| Slow cold start or high memory usage          | Large dependencies, SSR, or unoptimized build             | Use slim base images, optimize dependencies, increase memory if needed.       |
+
