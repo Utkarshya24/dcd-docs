@@ -12,14 +12,7 @@ description: DCDeploy supports multiple workload types to match the nature of yo
 - Can be autoscaled based on **CPU, memory, or network RPS**.
 
 **Example:**
-```yaml
-service:
-  name: api-service
-  image: ghcr.io/example/api:1.0.0
-  port: 8080
-  type: service
-```
-
+<img height="200" src="images/env-yml.png" />
 ---
 
 ### 2. **Database**
@@ -28,13 +21,7 @@ service:
 - Optimized for durability and stateful workloads.
 
 **Example:**
-```yaml
-service:
-  name: postgres-db
-  image: postgres:15
-  port: 5432
-  type: database
-```
+<img height="200" src="images/db-yml.png" />
 {/*
 ---
 

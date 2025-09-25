@@ -21,11 +21,6 @@ DCDeploy supports both **ephemeral** and **persistent storage**. Choosing the ri
   - Session storage  
   - Scratch data during builds or computation  
 
-**CLI Example:**
-```bash
-# Start a container with ephemeral storage
-dcd start <service-name>
-```
 #### Notes: 
 - Use for stateless services or data that can be regenerated.
 - No additional configuration needed.
@@ -40,13 +35,6 @@ dcd start <service-name>
 2. Mount the volume to the desired path in the container.
 3. Start the service; data persists across restarts and deployments.
 
-CLI Example:
-
-```bash
-Copy code
-# Attach a persistent volume to a service
-dcd volume attach <service-name> <volume-name>:/path/in/container
-```
 #### Notes:
 - Ensure volumes are backed up regularly.
 - Multiple services can share volumes if configured correctly.

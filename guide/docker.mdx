@@ -1,0 +1,38 @@
+---
+title: "Deploy Docker on DCDeploy"
+description: "Guide for deploying any Dockerized application on DCDeploy"
+---
+
+DCDeploy natively supports **Docker deployments**.  
+You can bring your own **Dockerfile** or deploy directly from a **Docker image** hosted in a registry.
+
+---
+
+## When to Use Docker on DCDeploy
+- You want **full control** over runtime, dependencies, and OS libraries.  
+- You’re deploying apps not natively supported by a language/framework guide.  
+- You already maintain **Docker images** in registries like DockerHub, GitHub Container Registry, or AWS ECR.  
+- You need **multi-service setups** with custom networking.  
+
+---
+
+## Deployment Options
+
+| Method             | Use Case                                                |
+|--------------------|---------------------------------------------------------|
+| **Dockerfile**     | Build from your source code on DCDeploy. Best for CI/CD pipelines. |
+| **Docker Image**   | Deploy prebuilt images from a container registry. Fast and portable. |
+
+---
+
+## Example: Using a Dockerfile
+
+1. Create a `Dockerfile` in your project:
+   ```dockerfile
+   FROM node:18-alpine
+   WORKDIR /app
+   COPY package*.json ./
+   RUN npm install --production
+   COPY . .
+   EXPOSE 3000
+   CMD ["npm", "start"]

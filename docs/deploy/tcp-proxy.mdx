@@ -17,106 +17,24 @@ description: The **TCP Proxy** in DCDeploy allows you to expose workloads that c
 
 To configure a workload with **TCP Proxy**, set the `protocol` field to `tcp` in your `DCDeploy.yml`.
 
-```yaml
-services:
-  postgres-db:
-    type: app
-    machineType: DCD-1
-    regions: India
-    image: postgres:16
-    ports:
-      - 5432
-    minScale: 1
-    maxScale: 1
-    protocol: tcp
-```
+<img height="200" src="images/db-config.png" />
 - ports → The TCP port your service listens on.
 - protocol: tcp → Ensures the proxy forwards raw TCP traffic instead of HTTP.
 - minScale / maxScale → Defines scaling limits (usually fixed for databases).
 
 ### Example: Mongo-db with TCP Proxy
-```yaml
-
-services:
-  mongodb-db:
-    type: app
-    machineType: DCD-1
-    regions: India
-    image: mongodb:v6
-    ports:
-      - 6379
-    minScale: 1
-    maxScale: 1
-    protocol: tcp
-```    
+<img height="200" src="images/mongo.png" />  
 
 ### TCP Public URLs for Databases
 When you set protocol: tcp, DCDeploy provisions a public TCP endpoint so you can connect to your database or TCP service from anywhere.
 
-Format
-```php
-
-tcp://<service-name>.<region>.dcd.run:<port>
-```
-### Example:
-```bash
-
-tcp://postgres-db.india.dcd.run:5432
-```
 ### PostgreSQL Example
 
-```yaml
+<img height="200" src="images/postgresql.png" />
 
-services:
-  postgres-db:
-    type: app
-    machineType: DCD-1
-    regions: India
-    image: postgres:16
-    ports:
-      - 5432
-    minScale: 1
-    maxScale: 1
-    protocol: tcp
-```
-Public endpoint after deployment:
-
-```bash
-
-tcp://postgres-db.india.dcd.run:5432
-Connect with psql:
-```
-```bash
-
-psql -h postgres-db.india.dcd.run -p 5432 -U admin -d mydb
-```
 Mysql Example
-```yaml
+<img height="200" src="images/sql.png" />   
 
-services:
-  mysql-db:
-    type: app
-    machineType: DCD-1
-    regions: India
-    image: mysql
-    ports:
-      - 6379
-    minScale: 1
-    maxScale: 1
-    protocol: tcp
-```    
-Public endpoint:
-
-```bash
-
-tcp://mysql.india.dcd.run:6379
-```
-Connect with CLI:
-
-```bash
-
-mysql-cli -h mysql.india.dcd.run -p 6379
-```
 ### Best practices
 - Secure your database – Never leave databases open without authentication. Always set strong passwords.
 - Restrict access – Use firewall rules or allow-list IPs if possible.

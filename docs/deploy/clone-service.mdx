@@ -30,49 +30,11 @@ description: DCDeploy allows you to **clone an existing service** with a single 
 
 Original service:
 
-```yaml
-bunny:
-  type: service
-  machineType: DCD-1
-  regions: India
-  build:
-    context: ./server1
-    dockerfilePath: ./server1/Dockerfile
-    repo: Utkarshya24/file-upload-backend
-    ref: main
-    refType: branch
-    commitHash: bb4c2ba325d35e7860f45bf09d9ad61ca04ba3ce
-    autoBuild: true
-    private: true
-  ports:
-    - 3001
-  minScale: 1
-  maxScale: 2
-  protocol: https
-```
+<img height="200" src="images/service-clone-yml.png" />
 
 Cloned service:
 
-```yaml
-bunny-clone:
-  type: service
-  machineType: DCD-1
-  regions: India
-  build:
-    context: ./server2
-    dockerfilePath: ./server2/Dockerfile
-    repo: Utkarshya24/file-upload-backend
-    ref: main
-    refType: branch
-    commitHash: bb4c2ba325d35e7860f45bf09d9ad61ca04ba3ce
-    autoBuild: true
-    private: true
-  ports:
-    - 3002
-  minScale: 1
-  maxScale: 1
-  protocol: https
-```
+<img height="200" src="images/service-yml.png" />
 
 ---
 

@@ -39,7 +39,6 @@
                   "docs/deploy/rebuild-deploy",
                   "docs/deploy/service-management",
                   "docs/deploy/ephemeral-persistant-storage",
-                  "docs/deploy/multiple-services",
                   "docs/deploy/workload-details",
                   "docs/deploy/revision-events"
                 ]
@@ -114,7 +113,8 @@
           "guide/expressjs",
           "guide/django",
           "guide/spring-boot",
-          "guide/go(Gin, Echo, Fiber)"
+          "guide/go(Gin, Echo, Fiber)",
+          "guide/docker"
       ]
       },
       {

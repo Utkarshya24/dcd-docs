@@ -26,12 +26,12 @@ It removes the complexity of managing servers, Kubernetes, networking, and secur
 
 ### 2. **Private Services & Databases**
 - Databases and internal services run **without public exposure**.  
-- Accessible only via **internal links** within a namespace.  
+- Accessible only via **internal links** within a env.  
 
 ### 3. **Networking & Security**
-- **Private networks** per namespace.  
+- **Private networks** per env.  
 - **TCP Proxy with SSL** for secure DB access from outside.  
-- **Cloudflare DDoS protection** & **default API rate limits**.  
+- **Cloudflare DDoS protection** & **default request rate limits**.  
 - **SSL certificates** managed automatically.  
 
 ### 4. **Security by Design**
@@ -54,26 +54,9 @@ It removes the complexity of managing servers, Kubernetes, networking, and secur
 ## Security Highlights
 
 - **CF DDoS protection** – all traffic is protected by Cloudflare’s global network.  
-- **Default API rate limits** – prevent abuse by throttling excessive requests.  
+- **Default request rate limits** – prevent abuse by throttling excessive requests.  
 - **Audit logs** – every action is tracked for visibility.  
 - **Secrets management** – sensitive data is never exposed.  
-
----
-
-## Documentation Map
-
-Here’s what you’ll find in the rest of the docs:  
-
-- **Service Management** → Start, stop, restart, delete services.  
-- **Backup & Restore** → Ensure data safety with one-click recovery.  
-- **Storage** → Ephemeral & persistent storage explained.  
-- **User Roles & Permissions** → Role-based access for teams.  
-- **Private Services & DB** → Internal-only services using private links.  
-- **Networking** → Private networks per namespace.  
-- **SSL & TCP Proxy** → Secure service & DB access.  
-- **Security** → How DCDeploy enforces security with Cilium, Kata, secrets, isolation.  
-- **Audit Logs** → Full activity tracking.  
-- **DDoS & API Rate Limits** → Built-in protection for apps.  
 
 ---
 

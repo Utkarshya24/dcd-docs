@@ -31,7 +31,7 @@ Every significant action — from deployments to user management — is recorded
 
 ## Viewing Audit Logs
 
-### 🔹 Dashboard
+### Dashboard
 1. Navigate to **Organization → Audit Logs**.  
 2. Filter logs by:
    - User  
@@ -40,16 +40,6 @@ Every significant action — from deployments to user management — is recorded
    - Date range  
 3. Export logs in **CSV or JSON** for compliance reporting.  
 
-### 🔹 CLI
-```bash
-dcd audit-logs --org my-org --limit 20
-```
-Example output:
-
-```yaml
-[2025-09-15 10:05:21] User: admin@org.com | Action: Service Deployed | Service: my-app
-[2025-09-15 10:15:32] User: dev@org.com   | Action: Env Var Updated  | Service: api-service
-```
 ### Use Cases
 - Security – Detect unauthorized or suspicious activity.
 - Compliance – Maintain audit trails for SOC2, GDPR, HIPAA, etc.
