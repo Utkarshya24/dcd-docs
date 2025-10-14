@@ -13,14 +13,14 @@ description: The **TCP Proxy** in DCDeploy allows you to expose workloads that c
 
 ---
 
-## Configuration
+{/* ## Configuration
 
-To configure a workload with **TCP Proxy**, set the `protocol` field to `tcp` in your `DCDeploy.yml`.
+To configure a workload with **TCP Proxy**, set the `protocol` field to `tcp` in your workload form.
 
 <img height="200" src="images/db-config.png" />
 - ports → The TCP port your service listens on.
 - protocol: tcp → Ensures the proxy forwards raw TCP traffic instead of HTTP.
-- minScale / maxScale → Defines scaling limits (usually fixed for databases).
+- minScale / maxScale → Defines scaling limits (usually fixed for databases). */}
 
 ### Example: Mongo-db with TCP Proxy
 <img height="200" src="images/db-mongo-form.png" />  
@@ -39,6 +39,6 @@ Mysql Example
 - Secure your database – Never leave databases open without authentication. Always set strong passwords.
 - Restrict access – Use firewall rules or allow-list IPs if possible.
 - Prefer private networking – For production workloads, use DCDeploy’s private VPC or service-to-service networking instead of exposing databases publicly.
-- Use secrets to store credentials rather than hardcoding them in your DCDeploy.yml.
+- Use secrets to store credentials rather than hardcoding them in your worhload form.
 
 --- 

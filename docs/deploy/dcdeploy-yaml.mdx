@@ -77,17 +77,18 @@ Specifies the workload type. Currently supported:
 Defines the compute size used. Examples:
 - `DCD-1` → Small (low-cost)
 - `DCD-2` → Medium
+- etc...
 
 ### `regions`
-Specifies the deployment region. Example: `India`, `US-East`, `Europe`.
+Specifies the deployment region. Example: `Mumbai (India)`, `Frankfurt (Germany)`. 
 
 ### `build`
 Describes how to build the container image.
 - `context` → Path to the build directory.
 - `dockerfilePath` → Path to the Dockerfile.
-- `repo` → Source repository (GitHub/GitLab).
+- `repo` → Source repository (GitHub).
 - `ref` → Branch, tag, or commit reference.
-- `refType` → Type of ref (`branch`, `tag`, `commit`).
+- `refType` → Type of ref (`branch`, `tag`).
 - `commitHash` → Pin to a specific commit.
 - `autoBuild` → If true, DCDeploy auto-builds on new commits.
 - `private` → If true, repository is private.
@@ -103,7 +104,7 @@ image: nginx:latest
 List of exposed container ports (e.g., `80`, `3000`).
 
 ### `protocol`
-Defines network protocol: `http` or `https`.
+Defines network protocol: `https`.
 
 ### `minScale` / `maxScale`
 Defines autoscaling range.
@@ -125,7 +126,6 @@ environment:
 
 - Use **`autoBuild: true`** for continuous deployment.
 - Prefer **`image`** for stable, pre-built containers.
-- Always pin builds with `commitHash` to ensure reproducibility.
 - Keep secrets in `environment` or [Secrets Manager](./environment-variables).
 - Use appropriate `minScale`/`maxScale` to balance cost and availability.
 

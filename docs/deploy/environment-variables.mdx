@@ -17,13 +17,6 @@ You can define environment variables while creating or updating a deployment:
 
 ---
 
-## Using in service manifests
-
-You can declare environment variables directly in the service manifest (`service.DCDeploy.yaml`):
-
-<img height="200" src="images/env-yml.png" />
----
-
 ## Secrets management
 
 Sensitive values (e.g., database passwords, API keys) should be stored as **secrets**. DCDeploy automatically encrypts them and injects them at runtime.

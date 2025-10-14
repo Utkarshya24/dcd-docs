@@ -30,15 +30,14 @@ description: 'Deploy your services using Docker images either from DockerHub or 
     Configure how your service should run:
     
     - **Port**: Enter the port number your service listens on. Ensure your app binds to `0.0.0.0` on this port.  
-    - **Protocol**: Choose HTTP, HTTPS, or TCP depending on your service.  
+    - **Protocol**: Choose HTTPS, or TCP depending on your service.  
     - **Region**: Select the DCDeploy region(s) where you want your service deployed.  
-    - **Machine Type**: Choose from available DCDeploy machine types (CPU, RAM, and Disk). [See details here](https://cloud.google.com/compute/docs/machine-types).  
+    - **Machine Type**: Choose from available DCDeploy machine types (CPU, RAM, and Disk). [See details here](https://dcdeploy.com/pricing/).  
     - **CPU/Memory Usage Limits**: Configure resource limits according to your service requirements.  
     - **Environment Variables**: Provide environment variables directly paste your `.env` file or add manually.  
     - **Scaling Options**:  
       - Define minimum and maximum instances.  
       - Enable **Auto Scaling** to automatically scale based on traffic or CPU/memory thresholds.  
-      - **0 scaling** means no traffic = service paused (billing paused too). When requests come in, it scales up automatically (cold start period applies).  
 
   </Step>
 
