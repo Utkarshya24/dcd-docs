@@ -21,20 +21,7 @@ This enables secure communication between services without exposing them to the 
 - Hybrid setups where only specific endpoints are public.  
 
 ---
-
-## Example
-
-```yaml
-# workload.yaml
-services:
-  api:
-    ports:
-      - 8080
-    network: private
-  db:
-    image: postgres:16
-    network: private
-```    
+  
 ## Best Practices
 - Keep databases and internal services private.
 - Only expose workloads via proxy or edge if necessary.

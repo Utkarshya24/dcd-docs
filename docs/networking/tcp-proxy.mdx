@@ -9,7 +9,7 @@ DCDeploy supports **TCP proxies** for workloads that require raw TCP connections
 ---
 
 ## When to Use
-- Running PostgreSQL, MySQL, Redis, or other TCP-based services.  
+- Running PostgreSQL, MySQL, or other TCP-based services.  
 - Exposing internal tools that don’t use HTTP.  
 - Secure external access to non-web workloads.  
 
@@ -28,14 +28,14 @@ DCDeploy supports **TCP proxies** for workloads that require raw TCP connections
 
 ```yaml
 services:
-  db:
-    image: postgres:16
+  mysql-db:
+    engine: mysql:9
     ports:
-      - "5432:tcp"
+      - "5432"
     proxy: true
 ```
 ### Result:
-Public TCP URL → tcp://db-xyz.DCDeploy.cloud:5432
+Public TCP URL → mysql://USERNAME:PASSWORD@mysql-9myyqbqq9e.tcp-proxy-2212.dcdeploy.cloud:30298/mysql-db
 
 ### Security Notes
 - Always require authentication (databases, SSH).
